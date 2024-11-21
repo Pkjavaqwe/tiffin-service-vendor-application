@@ -1,0 +1,49 @@
+.navbar {
+  background-color: #e43e38;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.mat-icon {
+  color: white;
+}
+.content {
+  padding: 24px;
+  background-color: #f8f9fa;
+  height: calc(100vh - 56px);
+}
+
+.sidenav-container {
+  height: 100vh;
+  padding-top: 64px;
+}
+
+.spacing {
+  flex: 1 1 auto;
+}
+
+.mat-button {
+  border-radius: 10px;
+  background-color: white;
+}
+
+.mat-icon {
+  color: white;
+}
+
+.mat-sidenav {
+  border-radius: 0px;
+  transition: width 0.3s ease;
+  margin-top: 64px;
+  background-color: white;
+}
+
+.tiffin-title-black {
+  color: black;
+}
+
+.tiffin-title-white {
+  color: white;
+}
