@@ -6,12 +6,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { markAllAsTouched } from '../../../shared/helper';
 
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [MatCardModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatFormFieldModule, MatFormField],
+  imports: [MatCardModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatFormFieldModule, MatFormField, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

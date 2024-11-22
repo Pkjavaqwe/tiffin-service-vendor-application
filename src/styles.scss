@@ -73,6 +73,7 @@ body {
     }
   }
   .my-custom-form-field {
+    width: 100%;
     @include mat.icon-overrides(
       (
         color: black,

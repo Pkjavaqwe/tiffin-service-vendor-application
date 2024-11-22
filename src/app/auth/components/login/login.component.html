@@ -3,7 +3,7 @@
     <mat-card-header>Login</mat-card-header>
     <mat-card-content>
       <form [formGroup]="loginForm">
-        <mat-form-field appearance="outline" class="form-field">
+        <mat-form-field appearance="outline" class="my-custom-form-field">
           <mat-label>Email</mat-label>
           <input
             matInput
@@ -15,7 +15,7 @@
           }
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="form-field">
+        <mat-form-field appearance="outline" class="my-custom-form-field">
           <mat-label>Password</mat-label>
           <input
             matInput
@@ -37,9 +37,10 @@
           Login
         </button>
       </form>
-      <mat-card-footer
-        >No account yet please click here to
-        <a routerLink="">Sign-up</a></mat-card-footer
+      <mat-card-footer>
+        No account yet? Please click
+        <a class="hyperlink" routerLink="/sign-up">here</a> to
+        Sign-up.</mat-card-footer
       >
     </mat-card-content>
   </mat-card>

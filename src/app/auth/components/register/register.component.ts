@@ -35,7 +35,7 @@ import { CustomValidatorService } from '../../services/custom-validator.service'
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  adminForm: FormGroup;
+  vendorForm: FormGroup;
   organizations: Organization[] = [];
   locations: Location[] = [];
   totalItems = 0;
@@ -48,9 +48,9 @@ export class RegisterComponent {
     private snackbar: SnackbarService,
     private validator: CustomValidatorService
   ) {
-    this.adminForm = new FormGroup(
+    this.vendorForm = new FormGroup(
       {
-        userName: new FormControl('', [
+        username: new FormControl('', [
           Validators.required,
           Validators.pattern(/^[a-zA-Z0-9.\-_$@*!]+$/),
           Validators.minLength(3),
@@ -69,32 +69,21 @@ export class RegisterComponent {
           validator.logPatternError(),
         ]),
         confirmPassword: new FormControl('', [Validators.required]),
-        roleId: new FormControl(RETAILER_ID),
-        roleSpecificDetails: new FormGroup({
-          organizationId: new FormControl('', Validators.required),
-          orgLocation: new FormControl('', Validators.required),
-          approvalStatus: new FormControl('pending'),
+        role_id: new FormControl(RETAILER_ID),
+        role_specific_details: new FormGroup({
+          gst_no: new FormControl('', Validators.required),
         }),
       }, { validators: [this.validator.confirmPasswordValidator] });
   }
 
   ngOnInit(): void {
     // this.fetchAllOrganizations();
-    this.confirmPassword?.valueChanges.subscribe(() => {
-      this.checkPasswordsMatch();
-    });
-  }
-  checkPasswordsMatch() {
-    const password = this.password?.value;
-    const confirmPassword = this.confirmPassword?.value;
-    if (password && confirmPassword) {
-      const matchError = password === confirmPassword ? null : { match: true };
-      this.adminForm.get('confirmPassword')?.setErrors(matchError);
-    }
+
   }
 
+
   get userName() {
-    return this.adminForm.get('userName');
+    return this.vendorForm.get('userName');
   }
   get errorMessageUserName(): string {
     const control = this.userName;
@@ -117,7 +106,7 @@ export class RegisterComponent {
     }
   }
   get email() {
-    return this.adminForm.get('email');
+    return this.vendorForm.get('email');
   }
   get errorMessageEmail(): string {
     const control = this.email;
@@ -136,7 +125,7 @@ export class RegisterComponent {
     }
   }
   get contactNumber() {
-    return this.adminForm.get('contactNumber');
+    return this.vendorForm.get('contactNumber');
   }
   get errorMessageContactNumber(): string {
     const control = this.contactNumber;
@@ -155,7 +144,7 @@ export class RegisterComponent {
     }
   }
   get address() {
-    return this.adminForm.get('address');
+    return this.vendorForm.get('address');
   }
   get errorMessageAddress(): string {
     const control = this.address;
@@ -176,7 +165,7 @@ export class RegisterComponent {
     }
   }
   get password() {
-    return this.adminForm.get('password');
+    return this.vendorForm.get('password');
   }
   get errorMessagePassword(): string {
     const control = this.password;
@@ -204,11 +193,11 @@ export class RegisterComponent {
   }
 
   get confirmPassword() {
-    return this.adminForm.get('confirmPassword');
+    return this.vendorForm.get('confirmPassword');
   }
 
   get errorMessageConfirmPassword(): string {
-    const control = this.adminForm.get('confirmPassword');
+    const control = this.vendorForm.get('confirmPassword');
     if (!control) return '';
 
     if (control.touched && control.dirty) {
@@ -221,95 +210,18 @@ export class RegisterComponent {
     }
     return '';
   }
-
-
-  get organizationId() {
-    return this.adminForm.get('roleSpecificDetails.organizationId');
-  }
-  get errorMessageOrganization(): string {
-    const control = this.organizationId;
-    if (!control) return '';
-    if (control.touched && control.dirty) {
-      switch (true) {
-        case control.hasError('required'):
-          return 'Please select organization!';
-        default:
-          return '';
-      }
-    } else {
-      return '';
-    }
-  }
-  get orgLocation() {
-    return this.adminForm.get('roleSpecificDetails.orgLocation');
-  }
-  get errorMessageOrganizationLocation(): string {
-    const control = this.orgLocation;
-    if (!control) return '';
-    if (control.touched && control.dirty) {
-      switch (true) {
-        case control.hasError('required'):
-          return 'Please select organization location!';
-        default:
-          return '';
-      }
-    } else {
-      return '';
-    }
-  }
-  /*
-  fetchAllOrganizations() {
-    this.organizationService.getAllOrganizationApi(this.flag).subscribe({
-      next: (responseData) => {
-        console.log('responsedata', responseData);
-        this.organizations = responseData.data;
-        this.totalItems = responseData.pagination.totalItems;
-      },
-      error: (e) => console.error('Error fetching slots:', e),
-      complete: () => console.info('complete'),
-    });
-  }
-  /*
-    onOrganizationChange(organizationId: string): void {
-      console.log("orgid", organizationId);
-      this.adminForm
-        .get('roleSpecificDetails.organizationId')
-        ?.setValue(organizationId);
-  
-      this.organizationService.getOrganizationById(organizationId).subscribe({
-        next: (organizationData) => {
-          console.log(organizationData);
-  
-          this.locations = organizationData.data.org_location;
-          console.log('Selected Organization:', this.locations);
-        },
-        error: (err) => {
-          console.error('Error fetching organization by ID:', err);
-          this.snackbar.showError('Failed to fetch organization details');
-        },
-      });
-    }*/
-  onLocationChange(orgLocation: string) {
-    console.log('Selected location:', orgLocation);
-    this.adminForm
-      .get('roleSpecificDetails.orgLocation')
-      ?.setValue(orgLocation);
-  }
-
-  CollectData() {
-    console.log(this.adminForm.value);
-    if (this.adminForm.valid) {
-      const { confirmPassword, ...formData } = this.adminForm.value;
-      formData.username = formData.userName,
+  collectData() {
+    console.log(this.vendorForm.value);
+    if (this.vendorForm.valid) {
+      const { confirmPassword, ...formData } = this.vendorForm.value;
+      formData.username = formData.username,
         formData.password = formData.password,
         formData.email = formData.email,
         formData.contact_number = formData.contactNumber,
         formData.address = formData.address,
-        formData.role_id = formData.roleId,
+        formData.role_id = formData.role_id,
         formData.role_specific_details = {
-          organization_id: formData.roleSpecificDetails.organizationId,
-          org_location: formData.roleSpecificDetails.orgLocation,
-          approval_status: formData.roleSpecificDetails.approvalStatus
+          gst_no: formData.role_specific_details.gst_no
         }
       console.log("Mapped Payload for Backend:", formData);
       this.authService.register(formData).subscribe({
@@ -326,7 +238,7 @@ export class RegisterComponent {
         },
       });
     } else {
-      markAllAsTouched(this.adminForm);
+      markAllAsTouched(this.vendorForm);
       this.snackbar.showError('Please Fill in all required information');
     }
   }

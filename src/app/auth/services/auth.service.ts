@@ -23,7 +23,7 @@ export class AuthService {
     formData: Retailers
   ): Observable<RetailerRegister> {
 
-    // console.log(admin)
+    console.log("inside register service", formData);
     return this.http.post<RetailerRegister>(this.baseUrlRegistration, formData);
   }
 }

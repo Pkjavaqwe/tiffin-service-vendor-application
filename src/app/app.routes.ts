@@ -8,7 +8,7 @@ export const routes: Routes = [
         component: LoginComponent
     },
     {
-        path: 'layout',
+        path: 'sign-up',
         component: RegisterComponent
     }
 ];

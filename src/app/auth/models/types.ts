@@ -9,8 +9,7 @@ export interface Organization {
 }
 
 export interface RoleDetails {
-    organization_id: string;
-    approval_status: string;
+    gst_no: string
 }
 
 export interface Retailers {
@@ -21,7 +20,6 @@ export interface Retailers {
     address: string;
     role_id: string;
     role_specific_details: RoleDetails;
-    _id: string;
 }
 
 export interface Location {
