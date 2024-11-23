@@ -1,0 +1,19 @@
+.container {
+  height: 100%;
+  width: 100%;
+  background-color: #f0f0f0;
+}
+
+.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  margin-bottom: 32px;
+}
+
+.mat-tool-right {
+  width: 176px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

@@ -6,6 +6,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f0f0f0;
 }
 html {
   @include mat.theme(
@@ -34,6 +35,11 @@ body {
 
   @include mat.icon-overrides(
     (
+      color: #080707,
+    )
+  );
+  @include mat.icon-overrides(
+    (
       color: #ffffff,
     )
   );
@@ -59,21 +65,18 @@ body {
     }
   }
   .my-custom-card {
+    margin-bottom: 32px;
     @include mat.card-overrides(
       (
+        elevated-container-color: white,
         subtitle-text-color: var(--mat-sys-primary),
         outlined-container-color: #ffffff,
       )
     );
-    &:hover {
-      background-color: var(--mat-sys-surface);
-      color: black;
-      transition: background-color 0.3s, color 0.3s;
-      transform: scale(0.99);
-    }
   }
   .my-custom-form-field {
     width: 100%;
+
     @include mat.icon-overrides(
       (
         color: black,
@@ -99,4 +102,32 @@ body {
       container-text-color: black,
     )
   );
+  @include mat.toolbar-overrides(
+    (
+      container-background-color: #ffffff,
+      container-text-color: #000000,
+    )
+  );
+  .custome-text-area {
+    width: 100%;
+
+    @include mat.icon-overrides(
+      (
+        color: black,
+      )
+    );
+    @include mat.form-field-density(-3);
+    @include mat.form-field-overrides(
+      (
+        outlined-label-text-size: 0.75rem,
+        container-text-size: 0.9rem,
+        container-text-line-height: 0.5rem,
+        outlined-focus-outline-color: black,
+        outlined-focus-label-text-color: black,
+        outlined-error-label-text-color: red,
+        error-text-color: red,
+        container-height: 150px,
+      )
+    );
+  }
 }
