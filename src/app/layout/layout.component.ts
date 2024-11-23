@@ -31,12 +31,12 @@ export class LayoutComponent {
     },
     {
       label: 'Orders',
-      redirectURL: '/order',
+      redirectURL: '/orders',
       icon: 'check_circle',
     },
     {
       label: 'Products',
-      redirectURL: '/product',
+      redirectURL: '/products',
       icon: 'add_circle_outline',
     },
 

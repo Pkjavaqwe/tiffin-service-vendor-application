@@ -1,0 +1,80 @@
+<!-- <div *ngFor="let order of ordersArray">
+    <mat-card class="order-card" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Order ID: {{ order._id }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Tiffin Name:</strong> {{ order.cart.items[0]?.tiffin_name }}</p>
+        <p><strong>Price:</strong> ₹{{ order.cart.items[0]?.price }}</p>
+        <p><strong>Tiffin Type:</strong> {{ order.cart.items[0]?.tiffin_type }}</p>
+      </mat-card-content>
+      <mat-card-footer>
+        <button mat-button>View Details</button>
+      </mat-card-footer>
+    </mat-card>
+  </div> -->
+
+  <div class="header-container">
+    <!-- Left Side: Back Arrow, Order ID, Accepted -->
+    <div class="left-section">
+      <span class="material-symbols-outlined back-arrow" (click)="goBack()">
+        arrow_back
+      </span>
+      <span class="order-id">Order ID: {{ order._id  }}</span>
+      <span class="accepted-status">Accepted</span>
+    </div>
+    
+    <!-- Right Side: Cancel Order and Delivered -->
+    <div class="right-section">
+      <button mat-flat-button class="cancel-button" >Cancel Order</button>
+      <button mat-flat-button class="delivered-button" >Delivered</button>
+    </div>
+  </div>
+  
+  <mat-divider class="divider"></mat-divider>
+  
+
+
+<div class="order-details-container">
+  <!-- Order Details Card -->
+  <mat-card class="order-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Order Details</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+
+    <mat-card-content *ngIf="order">
+      <div class="order-info">
+        <h3>Order ID: {{ order._id }}</h3>
+        <p><strong>Payment Status:</strong> {{ order.payment_status }}</p>
+        <p><strong>Delivery Status:</strong> {{ order.delivery_status }}</p>
+        <p>
+          <strong>Total Amount:</strong>
+          {{ order.cart?.total_amount | currency }}
+        </p>
+        <p>
+          <strong>Created At:</strong>
+          {{ order.created_at | date : "shortDate" }}
+        </p>
+      </div>
+    </mat-card-content>
+
+
+  </mat-card>
+
+  <!-- Customer Details Card (Side by Side) -->
+  <mat-card class="customer-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Customer Details</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+
+    <mat-card-content *ngIf="order">
+      <p><strong>Name:</strong> {{ order.cart.customer_name }}</p>
+      <p><strong>Contact Number:</strong> {{ order.cart.customer_contact }}</p>
+      <p><strong>Email:</strong> {{ order.cart.customer_email }}</p>
+    </mat-card-content>
+
+
+  </mat-card>
+</div>
