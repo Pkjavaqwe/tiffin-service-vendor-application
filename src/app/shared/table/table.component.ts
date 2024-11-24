@@ -7,10 +7,11 @@ import { OrderValue } from '../../layout/orders/model/order';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-table',
-  imports: [MatCheckboxModule, MatTableModule, MatCardModule,CommonModule,MatFormFieldModule],
+  imports: [MatCheckboxModule, MatTableModule, MatCardModule,CommonModule,MatFormFieldModule,MatIconModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
@@ -77,7 +78,7 @@ export class TableComponent {
   @Input() columns: any[] = [];
   @Input() ordersDetails: any[] = []; 
   // @Input() rowClickCallback: (row: any) => void = () => {}; 
-
+  selectedRows: any[] = [];
   displayedColumns: string[] = []; 
   selection = new SelectionModel<any>(true, []);
 

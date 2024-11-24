@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class OrderService {
   token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3M2VjOTE4MmMxNDVlYjUwOTJmZmZhZiIsInJvbGUiOiI2NzIzNDc1Zjc0YjMyY2ZlMzllNWQwYTIiLCJpYXQiOjE3MzIyNzU5MzQsImV4cCI6MTczMjI4MzEzNH0.a_YlG4RqCuFkq5_76oE9i_fMLdovb6HhBciQlPXrQiM';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3M2VjOTE4MmMxNDVlYjUwOTJmZmZhZiIsInJvbGUiOiI2NzIzNDc1Zjc0YjMyY2ZlMzllNWQwYTIiLCJpYXQiOjE3MzI0NTM3NTcsImV4cCI6MTczMjQ2MDk1N30.zDahAyqPb4iqk2whoz0khuOKlrKvWe2XQG2MpKNZrQw';
   constructor(private http: HttpClient) {}
   url = environment.apiEndpoint + '/retailers';
 

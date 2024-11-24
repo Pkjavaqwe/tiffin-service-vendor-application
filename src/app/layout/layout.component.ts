@@ -26,7 +26,7 @@ export class LayoutComponent {
   menus: Menus[] = [
     {
       label: `Dashboard`,
-      redirectURL: '/home',
+      redirectURL: '/dashboard',
       icon: 'dashboard',
     },
     {

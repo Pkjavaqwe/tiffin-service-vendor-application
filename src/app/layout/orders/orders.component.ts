@@ -30,11 +30,15 @@ export class OrdersComponent implements OnInit {
     });
   }
   orderColumns = [
-    { name: '_id', header: 'Order ID' },
+    // { name: '_id', header: 'Order ID' },
+    { name: 'customer_name', header: 'Customer Name' },
+
+    { name: 'payment_mode', header: 'Payment mode' },
+
     { name: 'payment_status', header: 'Payment Status' },
     { name: 'delivery_status', header: 'Delivery Status' },
     { name: 'price', header: 'Price' },
-    { name: 'created_at', header: 'Created At', pipe: 'date' },
+    { name: 'created_at', header: 'Date', pipe: 'date' },
     { name: 'isActive', header: 'Is Active' }
   ];
   onRowClick(row: any) {

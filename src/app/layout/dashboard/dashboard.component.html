@@ -1,0 +1,10 @@
+<mat-button-toggle-group aria-label="Filter">
+  <mat-button-toggle (click)="toggleFilter('weekly')">Weekly</mat-button-toggle>
+  <mat-button-toggle (click)="toggleFilter('monthly')"
+    >Monthly</mat-button-toggle
+  >
+</mat-button-toggle-group>
+<div style="display: flex; justify-content: center">
+  <ag-charts style="height: 100%; width: 100%" [options]="chartOptions">
+  </ag-charts>
+</div>

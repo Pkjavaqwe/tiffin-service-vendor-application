@@ -16,6 +16,13 @@ export const routes: Routes = [
             (m) => m.OrdersComponent
           ),
       },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./layout/dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent
+          ),
+      },
       // {
       //   path: 'products',
       //   component:TableComponent
