@@ -41,12 +41,14 @@ export class LoginComponent {
       data.subscribe({
         next: (response) => {
           sessionStorage.setItem('token', response.token);
+          sessionStorage.setItem('retailer_id', response._id);
+          console.log("response", response);
+
           this.route.navigate(['/product']);
         },
         error: (error) => {
           console.log(error);
         }
-
       })
     }
     console.log("loginForm", this.loginForm.value);

@@ -35,8 +35,10 @@ import { Tiffin } from '../models/tiffin';
 export class ProductViewComponent {
   tiffinForm!: FormGroup;
   tiffin!: Tiffin;
+  routeUrl: string | undefined = ""
   constructor(private router: Router, private activeRoute: ActivatedRoute, private productService: ProductsService) {
     const routeParams = this.activeRoute.snapshot.paramMap.get('_id')
+    this.routeUrl = activeRoute.snapshot.routeConfig?.path
     if (routeParams != null) {
       let _id = routeParams
       console.log(_id);
@@ -46,15 +48,28 @@ export class ProductViewComponent {
       tiffin_name: new FormControl('', [Validators.required]),
       tiffin_price: new FormControl('', [Validators.required]),
       tiffin_available_quantity: new FormControl('', [Validators.required]),
-      isActive: new FormControl('', [Validators.required]),
       tiffin_description: new FormControl('', [Validators.required]),
       tiffin_type: new FormControl('', [Validators.required]),
-      tiffin_image_url: new FormControl('', [Validators.required]),
+      // tiffin_image_url: new FormControl(''),
     })
   }
 
   goBack() {
     this.router.navigate(['/product']);
+  }
+  collectData() {
+    console.log("tiffinForm", this.tiffinForm);
+    this.tiffin = this.tiffinForm.value;
+    this.tiffin.isActive = true;
+    this.tiffin.tiffin_isavailable = true;
+    this.tiffin.retailer_id = sessionStorage.getItem('retailer_id');
+
+    console.log(this.tiffin);
+    if (this.routeUrl?.includes('product-view-add')) {
+      this.addTiffin();
+    } else {
+      this.updateTiffin();
+    }
   }
   getOneTiffin(_id: string) {
     console.log('Get one tiffin');
@@ -68,4 +83,47 @@ export class ProductViewComponent {
       }
     });
   }
+  addTiffin() {
+    if (this.tiffinForm.valid) {
+      this.tiffin = {
+        ...this.tiffinForm.value,
+        tiffin_created_at: new Date(),
+        tiffin_updated_at: new Date()
+      }
+      console.log('Form is valid, submitting data...');
+      this.productService.addTiffinByRetailer(this.tiffin).subscribe({
+        next: (response) => {
+          console.log('Tiffin added successfully', response);
+          this.router.navigate(['/product']);
+        },
+        error: (error) => {
+          console.error('Error adding tiffin', error);
+        }
+      });
+    } else {
+      console.log('Form is invalid');
+      this.tiffinForm.markAllAsTouched();
+    }
+  }
+
+  updateTiffin() {
+    let id = this.activeRoute.snapshot.paramMap.get('_id');
+    if (id !== null) {
+      const obsUpdate = this.productService.updateTiffinById(id, this.tiffin);
+      obsUpdate.subscribe({
+        next: (obj) => {
+          console.log(obj);
+          window.alert(`tiffin updated successfully....`)
+          this.router.navigate(['/product']);
+        },
+        error: (err) => {
+          console.log(err);
+          window.alert("something went wrong while updating...")
+        }
+      })
+    }
+
+  }
+
+
 }

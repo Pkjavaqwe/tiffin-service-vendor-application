@@ -3,6 +3,7 @@ export interface UserLoginResponse {
     statusCode: number;
     success: boolean,
     message: string,
+    _id: string,
 }
 export interface Login {
     email: string | null;

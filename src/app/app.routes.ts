@@ -18,7 +18,7 @@ export const routes: Routes = [
         component: ProductViewComponent
     },
     {
-        path: 'product-view',
+        path: 'product-view-add',
         component: ProductViewComponent
     },
     {
