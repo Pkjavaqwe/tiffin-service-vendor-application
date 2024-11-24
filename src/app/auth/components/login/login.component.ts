@@ -6,12 +6,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { markAllAsTouched } from '../../../shared/helper';
 
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [MatCardModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatFormFieldModule, MatFormField],
+  imports: [MatCardModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatFormFieldModule, MatFormField, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -22,9 +22,9 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
   })
   ngOnInit(): void {
-    const isTokenValid = sessionStorage.getItem("token")
+    const isTokenValid = this.authService.isAuthenticated();
     if (isTokenValid) {
-      this.route.navigate(['/layout'])
+      this.route.navigate(['/product']);
     }
   }
   onSubmit() {
@@ -41,7 +41,7 @@ export class LoginComponent {
       data.subscribe({
         next: (response) => {
           sessionStorage.setItem('token', response.token);
-          this.route.navigate(['/layout']);
+          this.route.navigate(['/product']);
         },
         error: (error) => {
           console.log(error);
