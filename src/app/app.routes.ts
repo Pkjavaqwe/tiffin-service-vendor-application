@@ -14,7 +14,11 @@ export const routes: Routes = [
         component: RegisterComponent
     },
     {
-        path: 'prduct-view',
+        path: 'product-view/:_id',
+        component: ProductViewComponent
+    },
+    {
+        path: 'product-view',
         component: ProductViewComponent
     },
     {

@@ -7,5 +7,10 @@
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
+    <button mat-stroked-button color="primary" (click)="goToProductDetails()">
+      + Add Product
+    </button>
   </mat-toolbar>
+  <app-table [columns]="columns" [columnDetails]="tiffinArray"></app-table>
 </div>
+<!--  -->

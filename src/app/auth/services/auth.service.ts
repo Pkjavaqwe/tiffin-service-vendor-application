@@ -26,4 +26,11 @@ export class AuthService {
     console.log("inside register service", formData);
     return this.http.post<RetailerRegister>(this.baseUrlRegistration, formData);
   }
+  isAuthenticated(): boolean {
+    const setToken = sessionStorage.getItem('token');
+    if (setToken) {
+      return true;
+    }
+    return false;
+  }
 }

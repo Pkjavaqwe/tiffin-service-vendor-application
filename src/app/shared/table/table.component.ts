@@ -3,14 +3,13 @@ import { Component, Injector, Input, SimpleChange, SimpleChanges } from '@angula
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { OrderValue } from '../../layout/orders/model/order';
 import { CommonModule, DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-table',
-  imports: [MatCheckboxModule, MatTableModule, MatCardModule,CommonModule,MatFormFieldModule],
+  imports: [MatCheckboxModule, MatTableModule, MatCardModule, CommonModule, MatFormFieldModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
@@ -75,25 +74,32 @@ export class TableComponent {
 
 
   @Input() columns: any[] = [];
-  @Input() ordersDetails: any[] = []; 
+  @Input() ordersDetails: any[] = [];
+  @Input() columnDetails: any[] = [];
   // @Input() rowClickCallback: (row: any) => void = () => {}; 
 
-  displayedColumns: string[] = []; 
+  displayedColumns: string[] = [];
   selection = new SelectionModel<any>(true, []);
+  routeUrl: string | undefined = "";
 
-  constructor(private router: Router) {}
-  dataSource = new MatTableDataSource<OrderValue>(this.ordersDetails);
+  constructor(private router: Router, private activeRoute: ActivatedRoute) {
+    this.routeUrl = activeRoute.snapshot.routeConfig?.path
 
+  }
+  dataSource = new MatTableDataSource(this.ordersDetails);
   ngOnInit() {
-    this.displayedColumns = ['select', ...this.columns.map((column: any) => column.name)]; 
+    this.displayedColumns = ['select', ...this.columns.map((column: any) => column.name)];
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['columns']) {
-      this.displayedColumns = this.columns.map(col => col.name); 
+      this.displayedColumns = this.columns.map(col => col.name);
     }
-        if (changes['ordersDetails']) {
-      this.dataSource.data = this.ordersDetails;
+    //     if (changes['ordersDetails']) {
+    //   this.dataSource.data = this.ordersDetails;
+    // }
+    if (changes['columnDetails']) {
+      this.dataSource.data = this.columnDetails;
     }
 
   }
@@ -119,20 +125,25 @@ export class TableComponent {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row._id}`;
   }
 
-  onRowClick(row: any,orderId:any) {
+  onRowClick(row: any, id: any) {
     // if (this.rowClickCallback) {
     //   this.rowClickCallback(row); 
     // }
-    this.router.navigate(['/order', orderId]);  
+    if (this.routeUrl?.includes('product')) {
+      this.router.navigate(['/product-view', id]);
+
+    } else {
+      this.router.navigate(['/order', id]);
+
+    }
 
   }
 
   applyPipe(value: any, pipeName: string) {
     if (pipeName === 'date') {
-      const datePipe = new DatePipe('en-US'); 
+      const datePipe = new DatePipe('en-US');
       return datePipe.transform(value, 'shortDate');
     }
-    return value; 
+    return value;
   }
-
 }

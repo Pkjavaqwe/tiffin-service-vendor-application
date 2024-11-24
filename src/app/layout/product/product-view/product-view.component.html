@@ -2,7 +2,7 @@
   <mat-toolbar class="mat-toolbar">
     <div class="mat-tool-right">
       <button mat-icon-button class="my-custom-button">
-        <mat-icon>arrow_back</mat-icon>
+        <mat-icon (click)="goBack()">arrow_back</mat-icon>
       </button>
       <h1>Edit Product</h1>
     </div>
@@ -30,7 +30,7 @@
       </mat-card>
     </div>
     <div class="product-info">
-      <form class="product-form">
+      <form [formGroup]="tiffinForm">
         <div class="form-content">
           <div class="card-one">
             <mat-card class="my-custom-card">
@@ -41,7 +41,11 @@
                   class="my-custom-form-field"
                 >
                   <mat-label>Product Name</mat-label>
-                  <input matInput placeholder="Enter product name" />
+                  <input
+                    matInput
+                    formControlName="tiffin_name"
+                    placeholder="Enter product name"
+                  />
                 </mat-form-field>
                 <div class="inner-fields">
                   <div class="price-field">
@@ -50,7 +54,11 @@
                       class="my-custom-form-field"
                     >
                       <mat-label>Product Price</mat-label>
-                      <input matInput placeholder="Enter product price" />
+                      <input
+                        matInput
+                        formControlName="tiffin_price"
+                        placeholder="Enter product price"
+                      />
                     </mat-form-field>
                   </div>
                   <div class="product-quantity">
@@ -59,7 +67,11 @@
                       class="my-custom-form-field"
                     >
                       <mat-label>Product Quantity</mat-label>
-                      <input matInput placeholder="Enter product quantity" />
+                      <input
+                        matInput
+                        formControlName="tiffin_available_quantity"
+                        placeholder="Enter product quantity"
+                      />
                     </mat-form-field>
                   </div>
                 </div>
@@ -67,6 +79,7 @@
                   <mat-label>Product Description</mat-label>
                   <textarea
                     matInput
+                    formControlName="tiffin_description"
                     placeholder="Enter product description"
                   ></textarea>
                 </mat-form-field>
@@ -81,7 +94,11 @@
                   class="my-custom-form-field"
                 >
                   <mat-label>Product Category</mat-label>
-                  <input matInput placeholder="Enter product category" />
+                  <input
+                    matInput
+                    formControlName="tiffin_type"
+                    placeholder="Enter product category"
+                  />
                 </mat-form-field>
               </mat-card-content>
             </mat-card>
@@ -92,7 +109,11 @@
                   class="my-custom-form-field"
                 >
                   <mat-label>Product Image</mat-label>
-                  <input matInput placeholder="Enter product image" />
+                  <input
+                    matInput
+                    formControlName="tiffin_image_url"
+                    placeholder="Enter product image"
+                  />
                 </mat-form-field>
               </mat-card-content>
             </mat-card>
