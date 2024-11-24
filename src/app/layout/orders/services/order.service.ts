@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class OrderService {
-  token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3M2VjOTE4MmMxNDVlYjUwOTJmZmZhZiIsInJvbGUiOiI2NzIzNDc1Zjc0YjMyY2ZlMzllNWQwYTIiLCJpYXQiOjE3MzI0NTM3NTcsImV4cCI6MTczMjQ2MDk1N30.zDahAyqPb4iqk2whoz0khuOKlrKvWe2XQG2MpKNZrQw';
+  token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3M2VjOTE4MmMxNDVlYjUwOTJmZmZhZiIsInJvbGUiOiI2NzIzNDc1Zjc0YjMyY2ZlMzllNWQwYTIiLCJpYXQiOjE3MzI0NjMyMTAsImV4cCI6MTczMjQ3MDQxMH0.hICctA7ACHqlE6qTLmGPtpC5NW4X1fxaNnXEAt6okOE"
   constructor(private http: HttpClient) {}
   url = environment.apiEndpoint + '/retailers';
 

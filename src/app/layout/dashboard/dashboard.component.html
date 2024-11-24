@@ -8,3 +8,30 @@
   <ag-charts style="height: 100%; width: 100%" [options]="chartOptions">
   </ag-charts>
 </div>
+
+<div style="padding: 20px; margin-bottom: 20px;">
+  <!-- Material Slider -->
+  <!-- <mat-slider min="100" max="500" step="10" [(ngModel)]="cardHeight" thumbLabel tickInterval="50"></mat-slider> -->
+
+  <!-- Material Cards -->
+  <div class="card-container">
+    <mat-card *ngFor="let org of organizationsArray" [style.height.px]="cardHeight" class="example-card">
+      <mat-card-header>
+        <img mat-card-avatar [src]="org.org_image_url" alt="Organization Image">
+        <mat-card-title>{{ org.org_name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Location:</strong> {{ org.org_location[0]?.loc }}</p>
+        <p><strong>Address:</strong> {{ org.org_location[0]?.address }}</p>
+        <p><strong>Contact:</strong> {{ org.org_location[0]?.loc_contact }}</p>
+        <p><strong>Email:</strong> {{ org.org_location[0]?.loc_email }}</p>
+      </mat-card-content>
+      
+      <!-- Register Button -->
+      <mat-card-actions>
+        <button mat-stroked-button color="primary" (click)="onRegisterClick(org._id)">Register</button>
+      </mat-card-actions>
+     
+    </mat-card>
+  </div>
+</div>
