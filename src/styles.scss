@@ -32,6 +32,14 @@ body {
       container-text-color: #ffffff,
     )
   );
+  .layout-toolbar{
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: var(--mat-sys-primary),
+        container-text-color: red,
+      )
+    );
+  }
 
   @include mat.icon-overrides(
     (
