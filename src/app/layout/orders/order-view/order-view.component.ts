@@ -37,7 +37,7 @@ export class OrderViewComponent {
     private route: ActivatedRoute,
     private orderService: OrderService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const orderId = this.route.snapshot.paramMap.get('id');
@@ -62,7 +62,7 @@ export class OrderViewComponent {
     });
   }
 
-  goBack(){
-    this.router.navigate(['/orders'])
+  goBack() {
+    this.router.navigate(['/layout/orders'])
   }
 }

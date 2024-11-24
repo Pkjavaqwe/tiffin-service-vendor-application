@@ -26,17 +26,17 @@ export class LayoutComponent {
   menus: Menus[] = [
     {
       label: `Dashboard`,
-      redirectURL: '/dashboard',
+      redirectURL: '/layout/dashboard',
       icon: 'dashboard',
     },
     {
       label: 'Orders',
-      redirectURL: '/orders',
+      redirectURL: '/layout/orders',
       icon: 'check_circle',
     },
     {
       label: 'Products',
-      redirectURL: '/products',
+      redirectURL: '/layout/product',
       icon: 'add_circle_outline',
     },
 
@@ -49,7 +49,7 @@ export class LayoutComponent {
 
   collapsed: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   collapsedState() {
     this.collapsed = !this.collapsed;

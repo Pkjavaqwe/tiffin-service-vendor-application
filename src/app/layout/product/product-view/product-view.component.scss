@@ -1,0 +1,56 @@
+.container {
+  height: 100%;
+  width: 100%;
+  background-color: #f0f0f0;
+}
+
+.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  margin-bottom: 32px;
+}
+.mat-tool-right {
+  width: 176px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.product-info {
+  width: 100%;
+}
+
+.quick-link {
+  width: 30%;
+  padding-right: 32px;
+  padding-left: 32px;
+}
+.section-two {
+  width: 100%;
+  display: flex;
+  padding-right: 32px;
+}
+.inner-fields {
+  width: 100%;
+  display: flex;
+}
+.price-field {
+  width: 100%;
+  padding-right: 16px;
+}
+.product-quantity {
+  width: 100%;
+  padding-left: 16px;
+}
+.product-info {
+  padding-right: 32px;
+  width: 100%;
+}
+
+.control-buttons {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+  padding-right: 32px;
+  gap: 16px;
+}
