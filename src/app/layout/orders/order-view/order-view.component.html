@@ -15,26 +15,35 @@
   </div> -->
 
 <div class="header-container">
-  <!-- Left Side: Back Arrow, Order ID, Accepted -->
   <div class="left-section">
     <span class="material-symbols-outlined back-arrow" (click)="goBack()">
       arrow_back
     </span>
     <span class="order-id">Order ID: {{ order._id }}</span>
-    <!-- <span class="accepted-status">Accepted</span> -->
   </div>
 
-  <!-- Right Side: Cancel Order and Delivered -->
   <div class="right-section">
-    <button mat-stroked-button class="my-custom-button">Cancel Order</button>
-    <button mat-stroked-button class="my-custom-button">Delivered</button>
+    <button
+      mat-stroked-button
+      class="my-custom-button"
+      [disabled]="order.delivery_status !== 'pending'"
+      (click)="cancelOrder(order._id)"
+    >
+      Cancel Order
+    </button>
+    <button
+      mat-stroked-button
+      class="my-custom-button"
+      [disabled]="order.delivery_status === 'delivered'"
+    >
+      Delivered
+    </button>
   </div>
 </div>
 
 <mat-divider class="divider"></mat-divider>
 
 <div class="order-details-container">
-  <!-- Order Details Card -->
   <mat-card class="order-card" appearance="outlined">
     <mat-card-header>
       <mat-card-title>Order Details</mat-card-title>
@@ -58,7 +67,6 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Customer Details Card (Side by Side) -->
   <mat-card class="customer-card" appearance="outlined">
     <mat-card-header>
       <mat-card-title>Customer Details</mat-card-title>

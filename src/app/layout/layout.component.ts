@@ -37,7 +37,7 @@ export class LayoutComponent {
     {
       label: 'Products',
       redirectURL: '/layout/product',
-      icon: 'add_circle_outline',
+      icon: 'category',
     },
 
     {
