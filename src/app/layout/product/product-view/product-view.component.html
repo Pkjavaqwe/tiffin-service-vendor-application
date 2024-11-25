@@ -85,6 +85,19 @@
                 </mat-form-field>
               </mat-card-content>
             </mat-card>
+            <div>
+              <mat-card class="my-custom-card">
+                <mat-card-content>
+                  <label>Upload Product Image</label>
+                  <input
+                    type="file"
+                    formControlName="tiffin_image_url"
+                    (change)="onFileSelected($event)"
+                    placeholder="Choose a file"
+                  />
+                </mat-card-content>
+              </mat-card>
+            </div>
           </div>
           <div class="card-two">
             <mat-card class="my-custom-card">
@@ -102,22 +115,6 @@
                 </mat-form-field>
               </mat-card-content>
             </mat-card>
-            <!-- <mat-card class="my-custom-card">
-              <mat-card-content>
-                <mat-form-field
-                  appearance="outline"
-                  class="my-custom-form-field"
-                >
-                  <mat-label>Upload Product Image</mat-label>
-                  <input
-                    type="file"
-                    formControlName="tiffin_image_url"
-                    (change)="onFileSelected($event)"
-                    placeholder="Choose a file"
-                  />
-                </mat-form-field>
-              </mat-card-content>
-            </mat-card> -->
           </div>
         </div>
       </form>

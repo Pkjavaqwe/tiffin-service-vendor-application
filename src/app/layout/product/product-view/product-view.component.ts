@@ -5,7 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -15,6 +15,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ProductsService } from '../services/products.service';
 import { Tiffin } from '../models/tiffin';
 import { HttpClient } from '@angular/common/http';
+import { SnackbarService } from '../../../shared/snackbar.service';
 @Component({
   selector: 'app-product-view',
   imports: [ReactiveFormsModule,
@@ -31,14 +32,14 @@ import { HttpClient } from '@angular/common/http';
     MatToolbarModule,
     MatSlideToggleModule],
   templateUrl: './product-view.component.html',
-  styleUrl: './product-view.component.scss'
+  styleUrl: './product-view.component.scss',
 })
 export class ProductViewComponent {
   tiffinForm!: FormGroup;
   tiffin!: Tiffin;
   routeUrl: string | undefined = ""
   uploadedImageUrl: string = '';
-  constructor(private router: Router, private activeRoute: ActivatedRoute, private productService: ProductsService, private http: HttpClient) {
+  constructor(private router: Router, private snackbar: SnackbarService, private activeRoute: ActivatedRoute, private productService: ProductsService, private http: HttpClient) {
     const routeParams = this.activeRoute.snapshot.paramMap.get('_id')
     this.routeUrl = activeRoute.snapshot.routeConfig?.path
     if (routeParams != null) {
@@ -65,6 +66,7 @@ export class ProductViewComponent {
     this.tiffin.isActive = true;
     this.tiffin.tiffin_isavailable = true;
     this.tiffin.retailer_id = sessionStorage.getItem('retailer_id');
+    this.tiffin.tiffin_image_url = this.uploadedImageUrl
 
     console.log(this.tiffin);
     if (this.routeUrl?.includes('product-view-add')) {
@@ -74,20 +76,25 @@ export class ProductViewComponent {
     }
   }
   onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('recfile', file);
-
-      this.http.post<{ image: string }>('http://localhost:5000/api/auth/uploaduserimage', formData).subscribe({
-        next: (response) => {
-          this.uploadedImageUrl = response.image;
-          this.tiffinForm.patchValue({ tiffin_image_url: this.uploadedImageUrl });
-        },
-        error: (error) => {
-          console.error('Image upload failed:', error);
-        }
-      });
+    const tiffinImageControls = (event.target as HTMLInputElement).files?.[0];
+    console.log(tiffinImageControls);
+    if (tiffinImageControls) {
+      console.log('Selected File:', tiffinImageControls)
+      this.productService.uploadTiffinImage(tiffinImageControls)
+        .subscribe({
+          next: (responseData) => {
+            console.log("responseData", responseData.image);
+            if (responseData.image) {
+              this.uploadedImageUrl = responseData.image;
+              console.log(this.uploadedImageUrl)
+              console.log('Image URL set to form control:', this.uploadedImageUrl);
+            }
+          },
+          error: (error) => {
+            this.snackbar.showError('Error uploading tiffin image!');
+            console.log('Error updated Tiffin...', error);
+          },
+        });
     }
   }
 
