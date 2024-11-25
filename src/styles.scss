@@ -6,7 +6,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #f0f0f0;
+  // background-color: #f0f0f0;
 }
 html {
   @include mat.theme(
@@ -22,9 +22,9 @@ html {
   );
 }
 
-body {
-  color: var(--mat-sys-on-surface);
-}
+// body {
+//   color: var(--mat-sys-on-surface);
+// }
 :root {
   @include mat.toolbar-overrides(
     (

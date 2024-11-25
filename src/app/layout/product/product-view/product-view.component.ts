@@ -14,6 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ProductsService } from '../services/products.service';
 import { Tiffin } from '../models/tiffin';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-product-view',
   imports: [ReactiveFormsModule,
@@ -36,7 +37,8 @@ export class ProductViewComponent {
   tiffinForm!: FormGroup;
   tiffin!: Tiffin;
   routeUrl: string | undefined = ""
-  constructor(private router: Router, private activeRoute: ActivatedRoute, private productService: ProductsService) {
+  uploadedImageUrl: string = '';
+  constructor(private router: Router, private activeRoute: ActivatedRoute, private productService: ProductsService, private http: HttpClient) {
     const routeParams = this.activeRoute.snapshot.paramMap.get('_id')
     this.routeUrl = activeRoute.snapshot.routeConfig?.path
     if (routeParams != null) {
@@ -50,7 +52,7 @@ export class ProductViewComponent {
       tiffin_available_quantity: new FormControl('', [Validators.required]),
       tiffin_description: new FormControl('', [Validators.required]),
       tiffin_type: new FormControl('', [Validators.required]),
-      // tiffin_image_url: new FormControl(''),
+      tiffin_image_url: new FormControl(''),
     })
   }
 
@@ -71,6 +73,24 @@ export class ProductViewComponent {
       this.updateTiffin();
     }
   }
+  onFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('recfile', file);
+
+      this.http.post<{ image: string }>('http://localhost:5000/api/auth/uploaduserimage', formData).subscribe({
+        next: (response) => {
+          this.uploadedImageUrl = response.image;
+          this.tiffinForm.patchValue({ tiffin_image_url: this.uploadedImageUrl });
+        },
+        error: (error) => {
+          console.error('Image upload failed:', error);
+        }
+      });
+    }
+  }
+
   getOneTiffin(_id: string) {
     console.log('Get one tiffin');
     console.log(_id);

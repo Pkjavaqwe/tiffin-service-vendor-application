@@ -108,11 +108,12 @@
                   appearance="outline"
                   class="my-custom-form-field"
                 >
-                  <mat-label>Product Image</mat-label>
+                  <mat-label>Upload Product Image</mat-label>
                   <input
-                    matInput
+                    type="file"
                     formControlName="tiffin_image_url"
-                    placeholder="Enter product image"
+                    (change)="onFileSelected($event)"
+                    placeholder="Choose a file"
                   />
                 </mat-form-field>
               </mat-card-content>
