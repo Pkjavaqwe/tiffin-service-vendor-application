@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { Tiffin, TiffinApiResponse } from '../models/tiffin';
+import { CloudinaryResponse, Tiffin, TiffinApiResponse } from '../models/tiffin';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,9 +11,14 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<TiffinApiResponse> {
+  getProducts(currentPage: number, pagesize: number): Observable<TiffinApiResponse> {
+
+    let param = {
+      page: currentPage,
+      limit: pagesize
+    }
     const getTiffinUrl = environment.apiEndpoint + '/retailers/tiffinItems/getalltiffin';
-    return this.http.get<TiffinApiResponse>(getTiffinUrl);
+    return this.http.get<TiffinApiResponse>(getTiffinUrl, { params: param });
   }
 
   getOneTiffinById(_id: string): Observable<TiffinApiResponse> {
@@ -30,5 +35,15 @@ export class ProductsService {
 
     const updateTiffinUrl = environment.apiEndpoint + '/retailers/tiffinItems/updatetiffin/' + id;
     return this.http.put<TiffinApiResponse>(updateTiffinUrl, tiffin);
+  }
+  uploadTiffinImage(file: File): Observable<CloudinaryResponse> {
+    const baseUrlOrgImage = environment.apiEndpoint + '/auth/uploaduserimage'
+    let formData = new FormData();
+    formData.append('recfile', file)
+    const observableData = this.http.post<CloudinaryResponse>(
+      baseUrlOrgImage,
+      formData
+    );
+    return observableData;
   }
 }

@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Injector, Input, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Injector, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -8,11 +8,11 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-table',
-  imports: [MatCheckboxModule, MatTableModule, MatCardModule, CommonModule, MatFormFieldModule, MatIconModule,MatPaginatorModule],
+  imports: [MatCheckboxModule, MatPaginatorModule, MatTableModule, MatCardModule, CommonModule, MatFormFieldModule, MatIconModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
@@ -79,6 +79,11 @@ export class TableComponent {
   @Input() columns: any[] = [];
   @Input() ordersDetails: any[] = [];
   @Input() columnDetails: any[] = [];
+  @Input() totalItems: number = 0;
+  @Input() pageSize: number = 10;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Output()
+  pageChange = new EventEmitter<PageEvent>();
   // @Input() rowClickCallback: (row: any) => void = () => {}; 
   selectedRows: any[] = [];
   displayedColumns: string[] = [];
@@ -91,20 +96,26 @@ export class TableComponent {
 
   ngOnInit() {
     this.displayedColumns = ['select', ...this.columns.map((column: any) => column.name)];
+    this.dataSource = new MatTableDataSource<any>(this.columnDetails);
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.dataSource.data = this.columnDetails;
     if (changes['columns']) {
       this.displayedColumns = this.columns.map(col => col.name);
     }
     if (changes['ordersDetails']) {
       this.dataSource.data = this.ordersDetails;
-      this.dataSource.data.length=this.ordersDetails.length
     }
     if (changes['columnDetails']) {
       this.dataSource.data = this.columnDetails;
     }
 
+  }
+  onPageChange(event: PageEvent) {
+    this.pageChange.emit(event);
+    console.log(" emit pageevent on change ", event);
   }
 
   isAllSelected(): boolean {

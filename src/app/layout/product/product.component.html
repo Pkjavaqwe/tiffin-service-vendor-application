@@ -11,6 +11,12 @@
       + Add Product
     </button>
   </mat-toolbar>
-  <app-table [columns]="columns" [columnDetails]="tiffinArray"></app-table>
+  <app-table
+    [columns]="columns"
+    [totalItems]="totalTiffins"
+    [pageSize]="pageSize"
+    [columnDetails]="tiffinArray"
+    (pageChange)="onPageChange($event)"
+  ></app-table>
 </div>
 <!--  -->

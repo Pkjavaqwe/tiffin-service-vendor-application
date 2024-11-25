@@ -19,4 +19,13 @@ export interface TiffinApiResponse {
     success: boolean;
     message: string;
     data: [];
+    pagination: {
+        currentPage: number,
+        totalPages: number,
+        totalItems: number
+    }
+}
+
+export interface CloudinaryResponse {
+    image: string
 }

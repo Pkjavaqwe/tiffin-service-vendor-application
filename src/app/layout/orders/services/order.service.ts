@@ -11,10 +11,10 @@ export class OrderService {
   constructor(private http: HttpClient) {}
   url = environment.apiEndpoint + '/retailers';
 
-  getAllOrders(currentPage:number,limit:number): Observable<OrderApiResponse> {
+  getAllOrders(currentPage:number,pagesize:number): Observable<OrderApiResponse> {
     const param = {
       page: currentPage,
-      limit: limit,
+      limit: pagesize,
     };
     const orderObservable = this.http.get<OrderApiResponse>(
       `${this.url}/getallorders`,{params:param}

@@ -14,21 +14,20 @@ import { PageEvent } from '@angular/material/paginator';
 export class OrdersComponent implements OnInit {
   ordersArray: OrderValue[] = [];
   currentPage: number = 1;
-  limit: number = 100;
-  totalItems: number = 14;
+  totalItems: number = 0;
   totalPages: number = 0;
-  pagesize:number=0;
+  pagesize:number=2;
 
   constructor(private orderService: OrderService) {}
   ngOnInit(): void {
-    this.getOrders(this.currentPage, this.limit);
+    this.getOrders(this.currentPage, this.pagesize);
   }
 
   getOrders(currentPage: number,
-    limit: number) {
+    pagesize: number) {
     console.log('giguguguuguu');
 
-    this.orderService.getAllOrders(currentPage,limit).subscribe({
+    this.orderService.getAllOrders(currentPage,pagesize).subscribe({
       next: (response) => {
         console.log('resppnsnsjdj', response.data);
         this.ordersArray = response.data;

@@ -15,6 +15,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TableComponent } from "../../shared/table/table.component";
 import { ProductsService } from './services/products.service';
 import { Tiffin } from './models/tiffin';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-product',
   imports: [ReactiveFormsModule,
@@ -35,6 +36,11 @@ import { Tiffin } from './models/tiffin';
 })
 export class ProductComponent {
 
+  totalTiffins = 0;
+  pageSize = 3;
+  currentPage = 1;
+  totalPages!: number
+
   tiffinArray: Tiffin[] = [];
   columns = [
     // --isActive
@@ -46,21 +52,30 @@ export class ProductComponent {
 
   constructor(private productService: ProductsService, private router: Router) { }
   ngOnInit(): void {
-    this.getAllTiffins();
+    this.getAllTiffins(this.currentPage, this.pageSize);
   }
-
-  getAllTiffins() {
+  getAllTiffins(pageNo: number, limit: number) {
     console.log('Get all tiffins');
-    const tiffinObservable = this.productService.getProducts();
+    const tiffinObservable = this.productService.getProducts(pageNo, limit);
     tiffinObservable.subscribe({
       next: (response) => {
         console.log('Tiffin response', response);
         this.tiffinArray = response.data;
+        this.totalTiffins = response.pagination.totalItems
+        // this.pageSize = response.pagination.totalPages
+        this.totalPages = response.pagination.totalPages
       }
     });
   }
-
   goToProductDetails() {
     this.router.navigate(['/layout/product-view-add']);
+  }
+  onPageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    console.log("in my component ", event);
+    if (this.currentPage <= this.totalPages) {
+      this.getAllTiffins(this.currentPage + 1, this.pageSize);
+    }
   }
 }
