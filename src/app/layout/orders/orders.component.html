@@ -4,4 +4,10 @@
     <input matInput placeholder="Search by username, email, etc." />
   </mat-form-field>
 </div>
-<app-table [columns]="orderColumns" [ordersDetails]="ordersArray"></app-table>
+<app-table
+  [columns]="orderColumns"
+  [ordersDetails]="ordersArray"
+  [totalItems]="totalItems"
+  [pageSize]="pagesize"
+  (pageChange)="onPageChange($event)"
+></app-table>

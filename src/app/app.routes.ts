@@ -10,11 +10,11 @@ import { ProductViewComponent } from './layout/product/product-view/product-view
 export const routes: Routes = [
   {
     path: '',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'sign-up',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
   {
     path: 'layout',
@@ -38,15 +38,24 @@ export const routes: Routes = [
       { path: 'order/:id', component: OrderViewComponent },
       {
         path: 'product-view/:_id',
-        loadComponent: () => import('./layout/product/product-view/product-view.component').then((m) => m.ProductViewComponent),
+        loadComponent: () =>
+          import('./layout/product/product-view/product-view.component').then(
+            (m) => m.ProductViewComponent
+          ),
       },
       {
         path: 'product-view-add',
-        loadComponent: () => import('./layout/product/product-view/product-view.component').then((m) => m.ProductViewComponent),
+        loadComponent: () =>
+          import('./layout/product/product-view/product-view.component').then(
+            (m) => m.ProductViewComponent
+          ),
       },
       {
         path: 'product',
-        loadComponent: () => import('./layout/product/product.component').then((m) => m.ProductComponent),
+        loadComponent: () =>
+          import('./layout/product/product.component').then(
+            (m) => m.ProductComponent
+          ),
       },
       {
         path: '**',

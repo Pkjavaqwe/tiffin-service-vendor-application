@@ -11,15 +11,19 @@ export class OrderService {
   constructor(private http: HttpClient) {}
   url = environment.apiEndpoint + '/retailers';
 
-  getAllOrders(): Observable<OrderApiResponse> {
+  getAllOrders(currentPage:number,limit:number): Observable<OrderApiResponse> {
+    const param = {
+      page: currentPage,
+      limit: limit,
+    };
     const orderObservable = this.http.get<OrderApiResponse>(
-      `${this.url}/getallorders`
+      `${this.url}/getallorders`,{params:param}
     );
     console.log('in order service', orderObservable);
     return orderObservable;
   }
-  cancelOrder(orderId: string): Observable<any> {
-    const url = `${this.url}/cancelorder/${orderId}`;
-    return this.http.put<any>(url, {});
-  }
+  // cancelOrder(orderId: string): Observable<any> {
+  //   const url = `${this.url}/cancelorder/${orderId}`;
+  //   return this.http.get<any>(url, {});
+  // }
 }

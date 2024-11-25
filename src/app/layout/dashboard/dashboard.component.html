@@ -4,7 +4,7 @@
     >Monthly</mat-button-toggle
   >
 </mat-button-toggle-group>
-<div style="display: flex; justify-content: center">
+<div style="display: flex; justify-content: center; margin:16px">
   <ag-charts style="height: 100%; width: 100%" [options]="chartOptions">
   </ag-charts>
 </div>
@@ -12,7 +12,7 @@
 <div style="padding: 20px; margin-bottom: 20px;">
 
   <div class="card-container">
-    <mat-card *ngFor="let org of organizationsArray" [style.height.px]="cardHeight" class="example-card">
+    <mat-card *ngFor="let org of organizationsArray" [style.height.px]="cardHeight" class="my-custom-card example-card">
       <mat-card-header>
         <img mat-card-avatar [src]="org.org_image_url" alt="Organization Image">
         <mat-card-title>{{ org.org_name }}</mat-card-title>

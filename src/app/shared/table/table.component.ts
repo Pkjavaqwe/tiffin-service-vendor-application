@@ -8,10 +8,11 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-table',
-  imports: [MatCheckboxModule, MatTableModule, MatCardModule, CommonModule, MatFormFieldModule, MatIconModule],
+  imports: [MatCheckboxModule, MatTableModule, MatCardModule, CommonModule, MatFormFieldModule, MatIconModule,MatPaginatorModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
@@ -98,6 +99,7 @@ export class TableComponent {
     }
     if (changes['ordersDetails']) {
       this.dataSource.data = this.ordersDetails;
+      this.dataSource.data.length=this.ordersDetails.length
     }
     if (changes['columnDetails']) {
       this.dataSource.data = this.columnDetails;

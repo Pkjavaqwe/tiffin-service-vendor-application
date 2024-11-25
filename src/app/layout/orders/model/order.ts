@@ -35,4 +35,9 @@ export interface OrderValue {
     success: boolean;
     message: string;
     data: [];
+    pagination: {
+      currentPage: number,
+      totalItems: number,
+      totalPages: number
+    }
   }
