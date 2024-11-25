@@ -25,12 +25,6 @@
   background-color: white;
 }
 
-// .order-card:hover,
-// .customer-card:hover {
-//   transform: translateY(-5px);
-//   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-// }
-
 @media (max-width: 768px) {
   .order-details-container {
     flex-direction: column;
@@ -43,30 +37,15 @@
 }
 
 .back-arrow {
-  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition */
+  transition: transform 0.3s ease, color 0.3s ease; 
 }
 
 .back-arrow:hover {
-  transform: scale(1.2); /* Slightly increase the size of the icon */
-  color: red; /* Change the color of the icon on hover (you can customize the color) */
-  cursor: pointer; /* Change the cursor to a pointer to indicate it's clickable */
+  transform: scale(1.2);
+  color: red;
+  cursor: pointer;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Header container with flex layout */
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -74,7 +53,6 @@
   padding-bottom: 10px;
 }
 
-/* Left section styles */
 .left-section {
   display: flex;
   align-items: center;
@@ -82,7 +60,7 @@
 
 .back-arrow {
   cursor: pointer;
-  font-size: 24px;  
+  font-size: 24px;
 }
 
 .order-id {
@@ -97,17 +75,6 @@
 .right-section {
   display: flex;
   align-items: center;
-}
-
-.cancel-button {
-  background-color: #f44336; 
-  color: white;
-  margin-right: 10px;  
-}
-
-.delivered-button {
-  background-color: #3f51b5; 
-  color: white;
 }
 
 .divider {

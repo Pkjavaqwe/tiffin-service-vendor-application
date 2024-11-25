@@ -13,31 +13,14 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './order-view.component.scss',
 })
 export class OrderViewComponent {
-  // ordersArray: OrderValue[] = [];
-
-  // constructor(private orderService: OrderService) {}
-
-  // ngOnInit(): void {
-  //   this.getOrders();
-  // }
-
-  // getOrders() {
-  //   this.orderService.getAllOrders().subscribe({
-  //     next: (response) => {
-  //       this.ordersArray = response.data;
-  //     },
-  //     error: (err) => {
-  //       console.log('Error Fetching orders', err);
-  //     }
-  //   });
-  // }
-
   order: any;
+  ordersArray: OrderValue[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const orderId = this.route.snapshot.paramMap.get('id');
@@ -63,6 +46,34 @@ export class OrderViewComponent {
   }
 
   goBack() {
-    this.router.navigate(['/layout/orders'])
+    this.router.navigate(['/layout/orders']);
   }
+
+  cancelOrder(orderId: string): void {
+    console.log("in cancel",orderId);
+    
+    this.orderService.cancelOrder(orderId).subscribe(
+      (response) => {
+        if (response.success) {
+          alert(response.message); 
+          this.updateOrderStatus(orderId, 'cancelled'); 
+        } else {
+          alert(response.message); 
+        }
+      },
+      (error) => {
+        console.error("Error canceling the order", error);
+        alert("An error occurred while canceling the order.");
+      }
+    );
+  }
+
+  updateOrderStatus(orderId: string, newStatus: string): void {
+    const orderIndex = this.ordersArray.findIndex(order => order._id === orderId);
+  
+    if (orderIndex !== -1) {
+      this.ordersArray[orderIndex].delivery_status = newStatus;
+    }
+  
+}
 }
