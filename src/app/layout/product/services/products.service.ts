@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { CloudinaryResponse, Tiffin, TiffinApiResponse } from '../models/tiffin';
+import { CloudinaryResponse, SingleTiffinApiResponse, Tiffin, TiffinApiResponse } from '../models/tiffin';
 import { Observable } from 'rxjs';
+import { query } from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +22,9 @@ export class ProductsService {
     return this.http.get<TiffinApiResponse>(getTiffinUrl, { params: param });
   }
 
-  getOneTiffinById(_id: string): Observable<TiffinApiResponse> {
+  getOneTiffinById(_id: string): Observable<SingleTiffinApiResponse> {
     const getOneTiffinUrl = environment.apiEndpoint + '/retailers/tiffinItems/gettiffinbyid/' + _id;
-    return this.http.get<TiffinApiResponse>(getOneTiffinUrl);
+    return this.http.get<SingleTiffinApiResponse>(getOneTiffinUrl);
   }
   addTiffinByRetailer(tiffin: Tiffin) {
     const addTiffinUrl = environment.apiEndpoint + '/retailers/tiffinItems/addtiffin';
@@ -45,5 +46,21 @@ export class ProductsService {
       formData
     );
     return observableData;
+  }
+
+  deleteTiffinById(id: string): Observable<TiffinApiResponse> {
+    const deleteUrl = environment.apiEndpoint + '/retailers/tiffinItems/deletetiffin/' + id
+    const deleteObservable = this.http.delete<TiffinApiResponse>(deleteUrl)
+    return deleteObservable;
+  }
+
+  searchRetailer(querySearch: string,) {
+    // http://localhost:5000/api/retailers/tiffinItems/searchTiffinItem/?query=veg thali
+    let param = {
+      query: querySearch
+    }
+    const searchUrl = environment.apiEndpoint + '/retailers/tiffinItems/searchTiffinItem'
+    const searchObservable = this.http.get<TiffinApiResponse>(searchUrl, { params: param })
+    return searchObservable;
   }
 }

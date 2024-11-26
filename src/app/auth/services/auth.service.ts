@@ -21,10 +21,10 @@ export class AuthService {
   baseUrlRegistration = environment.apiEndpoint + '/auth/register';
   register(
     formData: Retailers
-  ): Observable<RetailerRegister> {
+  ): Observable<UserLoginResponse> {
 
     console.log("inside register service", formData);
-    return this.http.post<RetailerRegister>(this.baseUrlRegistration, formData);
+    return this.http.post<UserLoginResponse>(this.baseUrlRegistration, formData);
   }
   isAuthenticated(): boolean {
     const setToken = sessionStorage.getItem('token');
