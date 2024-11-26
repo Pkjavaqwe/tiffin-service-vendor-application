@@ -25,6 +25,17 @@ export interface TiffinApiResponse {
         totalItems: number
     }
 }
+export interface SingleTiffinApiResponse {
+    statusCode: number;
+    success: boolean;
+    message: string;
+    data: Tiffin;
+    pagination: {
+        currentPage: number,
+        totalPages: number,
+        totalItems: number
+    }
+}
 
 export interface CloudinaryResponse {
     image: string

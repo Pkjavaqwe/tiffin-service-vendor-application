@@ -89,6 +89,14 @@ export class TableComponent {
   displayedColumns: string[] = [];
   selection = new SelectionModel<any>(true, []);
   routeUrl: string | undefined = "";
+
+  addButton: boolean = false
+  deleteButton: boolean = false
+  @Output()
+  updateButton = new EventEmitter<Boolean>();
+  @Input()
+  searchedQueryNotFound: string = "";
+
   constructor(private router: Router, private activeRoute: ActivatedRoute) {
     this.routeUrl = activeRoute.snapshot.routeConfig?.path
   }
@@ -143,9 +151,11 @@ export class TableComponent {
     // if (this.rowClickCallback) {
     //   this.rowClickCallback(row); 
     // }
+    console.log("id on row click ---- ", id);
+
     if (this.routeUrl?.includes('product')) {
       console.log("in product row click");
-
+      this.updateButton.emit(true)
       this.router.navigate(['/layout/product-view', id]);
     } else {
       console.log("in orders row click");

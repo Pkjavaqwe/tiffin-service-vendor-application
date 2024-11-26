@@ -71,6 +71,7 @@ export class ProductViewComponent {
     console.log(this.tiffin);
     if (this.routeUrl?.includes('product-view-add')) {
       this.addTiffin();
+      this.snackbar.showSuccess("tiffin added successfully")
     } else {
       this.updateTiffin();
     }
@@ -105,7 +106,8 @@ export class ProductViewComponent {
     tiffinObservable.subscribe({
       next: (response) => {
         console.log('Tiffin response', response);
-        this.tiffinForm.patchValue(response.data);
+        const { tiffin_image_url, ...partialResponse } = response.data
+        this.tiffinForm.patchValue(partialResponse);
         console.log(this.tiffinForm.value);
       }
     });
@@ -121,7 +123,7 @@ export class ProductViewComponent {
       this.productService.addTiffinByRetailer(this.tiffin).subscribe({
         next: (response) => {
           console.log('Tiffin added successfully', response);
-          this.router.navigate(['/product']);
+          this.router.navigate(['layout/product']);
         },
         error: (error) => {
           console.error('Error adding tiffin', error);
@@ -140,17 +142,31 @@ export class ProductViewComponent {
       obsUpdate.subscribe({
         next: (obj) => {
           console.log(obj);
-          window.alert(`tiffin updated successfully....`)
-          this.router.navigate(['/product']);
+          this.snackbar.showSuccess('tiffin updated successfully....')
+          this.router.navigate(['layout/product']);
         },
         error: (err) => {
           console.log(err);
-          window.alert("something went wrong while updating...")
+          this.snackbar.showError("something went wrong while updating")
         }
       })
     }
-
   }
 
-
+  deleteTiffin() {
+    let id = this.activeRoute.snapshot.paramMap.get('_id');
+    if (id !== null) {
+      const deleteObservable = this.productService.deleteTiffinById(id)
+      deleteObservable.subscribe({
+        next: (response) => {
+          console.log(response);
+          this.snackbar.showSuccess('tiffin deleted successfully')
+        },
+        error: (err) => {
+          console.log(err);
+          this.snackbar.showSuccess('something went wrong while deleting tiffin')
+        }
+      })
+    }
+  }
 }

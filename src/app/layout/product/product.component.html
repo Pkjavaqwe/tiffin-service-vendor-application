@@ -3,7 +3,12 @@
     <div class="mat-tool-right">
       <mat-form-field class="my-custom-form-field" appearance="outline">
         <mat-label>Search Admins</mat-label>
-        <input class="input" matInput placeholder="Search by name or email" />
+        <input
+          class="input"
+          matInput
+          placeholder="Search by name or email"
+          (keyup)="onSearchInput($event)"
+        />
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
@@ -17,6 +22,7 @@
     [pageSize]="pageSize"
     [columnDetails]="tiffinArray"
     (pageChange)="onPageChange($event)"
+    [searchedQueryNotFound]="searchedQueryNotFound"
   ></app-table>
 </div>
 <!--  -->
