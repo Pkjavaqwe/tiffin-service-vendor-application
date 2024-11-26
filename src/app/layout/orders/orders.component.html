@@ -1,8 +1,20 @@
-<div class="search-container">
+<!-- <div class="search-container">
   <mat-form-field appearance="outline" class="search-field">
     <mat-label>Search</mat-label>
     <input matInput placeholder="Search by username, email, etc." />
   </mat-form-field>
+</div> -->
+<div class="search-container">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search</mat-label>
+    <input 
+      matInput 
+      [(ngModel)]="query"  
+      placeholder="Search by customer name" 
+      (input)="onSearch()" 
+    />
+  </mat-form-field>
+  <h3 style="color: red;"> {{errorMessage}}</h3>
 </div>
 <app-table
   [columns]="orderColumns"
@@ -11,3 +23,4 @@
   [pageSize]="pagesize"
   (pageChange)="onPageChange($event)"
 ></app-table>
+

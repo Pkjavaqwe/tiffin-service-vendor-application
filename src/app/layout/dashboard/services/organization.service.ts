@@ -20,10 +20,12 @@ url=environment.apiEndpoint+'/retailers'
     return observableData;
   }
 
-  addRequest(organizationId: string, token: string): Observable<any> {
+  addRequest(organizationId: string, location: string): Observable<any> {
+console.log("location", location);
+
 
     return this.http.put<any>(
-      `${this.url}/addRequest/${organizationId}`, 
+      `${this.url}/addRequest/${organizationId}/?org_location=${location}`, 
       {},  
     );
   }

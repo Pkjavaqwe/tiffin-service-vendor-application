@@ -16,8 +16,8 @@
 
 <div class="header-container">
   <div class="left-section">
-    <span class="material-symbols-outlined back-arrow" (click)="goBack()">
-      arrow_back
+    <span mat-icon-button class=" my-custom-button back-arrow ">
+      <mat-icon (click)="goBack()">arrow_back</mat-icon>
     </span>
     <span class="order-id">Order ID: {{ order._id }}</span>
   </div>

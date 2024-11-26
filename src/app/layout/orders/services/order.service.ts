@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { OrderApiResponse } from '../model/order';
@@ -26,4 +26,15 @@ export class OrderService {
   //   const url = `${this.url}/cancelorder/${orderId}`;
   //   return this.http.get<any>(url, {});
   // }
+
+  searchOrders(query: string): Observable<any> {
+    const params = new HttpParams().set('query', query);
+
+    const obs= this.http.get<any>(`${this.url}/searchorders`, {
+      params: params,
+    });
+    console.log("in search..",obs);
+    return obs;
+    
+  }
 }

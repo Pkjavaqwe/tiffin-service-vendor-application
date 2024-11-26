@@ -6,9 +6,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { OrderService } from './services/order.service';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-order-view',
-  imports: [MatCardModule, CommonModule, MatDividerModule, MatButtonModule],
+  imports: [MatCardModule, CommonModule, MatDividerModule, MatButtonModule,MatIconModule],
   templateUrl: './order-view.component.html',
   styleUrl: './order-view.component.scss',
 })

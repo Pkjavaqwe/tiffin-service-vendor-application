@@ -268,23 +268,26 @@ export class DashboardComponent {
     });
   }
 
-  onRegisterClick(organizationId: string) {
+  onRegisterClick(organizationId: string, location:string) {
     const token = sessionStorage.getItem('token');
     console.log("token",token);
     
 
     if (token) {
-      const obs = this.organizationService.addRequest(organizationId, token);
-      console.log('kahajhss', organizationId);
+      const obs = this.organizationService.addRequest(organizationId,location);
+      console.log('kahajhss', location);
 
       obs.subscribe(
         (response) => {
           console.log('Request added successfully', response);
           // this.snackBar.open('Request added successfully', 'Close', { duration: 2000 });
+          alert("Request added successfully")
         },
         (error) => {
           console.error('Error adding request', error);
           // this.snackBar.open('Failed to add request', 'Close', { duration: 2000 });
+          alert("Failed to add request")
+
         }
       );
     } else {

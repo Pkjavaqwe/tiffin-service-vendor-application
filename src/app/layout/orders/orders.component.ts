@@ -4,10 +4,11 @@ import { OrderValue } from './model/order';
 import { TableComponent } from '../../shared/table/table.component';
 import { MatInputModule } from '@angular/material/input';
 import { PageEvent } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-orders',
-  imports: [TableComponent,MatInputModule,],
+  imports: [TableComponent, MatInputModule, FormsModule],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss',
 })
@@ -16,60 +17,35 @@ export class OrdersComponent implements OnInit {
   currentPage: number = 1;
   totalItems: number = 0;
   totalPages: number = 0;
-  pagesize:number=2;
+  pagesize: number = 2;
 
   constructor(private orderService: OrderService) {}
   ngOnInit(): void {
     this.getOrders(this.currentPage, this.pagesize);
   }
 
-  getOrders(currentPage: number,
-    pagesize: number) {
+  getOrders(currentPage: number, pagesize: number) {
     console.log('giguguguuguu');
 
-    this.orderService.getAllOrders(currentPage,pagesize).subscribe({
+    this.orderService.getAllOrders(currentPage, pagesize).subscribe({
       next: (response) => {
         console.log('resppnsnsjdj', response.data);
         this.ordersArray = response.data;
         this.totalItems = response.pagination.totalItems;
         this.totalPages = response.pagination.totalPages;
-        console.log("total items",this.totalPages);
-        
+        console.log('total items', this.totalPages);
       },
       error: (err) => console.log('Error Fetching orders', err),
     });
   }
 
-  onPageChange(event:PageEvent){
-    const{pageSize, pageIndex}=event;
-    this.pagesize=pageSize
-    if(pageIndex<=this.totalPages){
-      this.getOrders(pageIndex+1, this.pagesize);
+  onPageChange(event: PageEvent) {
+    const { pageSize, pageIndex } = event;
+    this.pagesize = pageSize;
+    if (pageIndex <= this.totalPages) {
+      this.getOrders(pageIndex + 1, this.pagesize);
     }
   }
-
-  // getAdminRequestsByStatus(
-  //   status: string,
-  //   currentPage: number,
-  //   limit: number
-  // ): void {
-  //   console.log('Fetching admin requests for status:', status);
-  //   this.superAdminService
-  //     .getRequestsByStatus(status, currentPage, limit)
-  //     .subscribe({
-  //       next: (adminData) => {
-  //         this.adminsArray = adminData.data;
-  //         this.allAdminsArray = adminData.data;
-  //         this.totalItems = adminData.pagination.totalItems;
-  //         this.totalPages = Math.ceil(this.totalItems / this.limit);
-  //         console.log('Fetched Admin Requests:', this.adminsArray);
-  //         console.log('Total Pages:', this.totalPages);
-  //       },
-  //       error: (err) => {
-  //         console.error('Error fetching admin requests:', err);
-  //       },
-  //     });
-  // }
 
   orderColumns = [
     // { name: '_id', header: 'Order ID' },
@@ -81,9 +57,44 @@ export class OrdersComponent implements OnInit {
     { name: 'delivery_status', header: 'Delivery Status' },
     { name: 'price', header: 'Price' },
     { name: 'created_at', header: 'Date', pipe: 'date' },
-    { name: 'isActive', header: 'Is Active' }
+    { name: 'isActive', header: 'Is Active' },
   ];
   onRowClick(row: any) {
     console.log('Row clicked:', row);
+  }
+
+  query: string = '';
+  errorMessage: string = '';
+
+  onSearch() {
+    console.log('in search...', this.query);
+
+    if (!this.query) {
+      this.ordersArray = [];
+
+      this.getOrders(this.currentPage, this.pagesize);
+      this.errorMessage = '';
+      return;
+    }
+
+    this.orderService.searchOrders(this.query).subscribe(
+      (response) => {
+        if (response.success) {
+          console.log('response....', response.data);
+
+          this.ordersArray = response.data;
+          this.errorMessage = '';
+        } else {
+          this.ordersArray = [];
+          this.errorMessage = 'No orders found.';
+          console.log('errormessage', this.errorMessage);
+        }
+      },
+      (error) => {
+        this.ordersArray = [];
+        this.errorMessage = 'An error occurred while fetching orders.';
+        console.error(error);
+      }
+    );
   }
 }

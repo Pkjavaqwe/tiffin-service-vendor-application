@@ -39,13 +39,14 @@
 
 .back-arrow {
   transition: transform 0.3s ease, color 0.3s ease; 
+  // border-radius: 10px;
 }
 
-.back-arrow:hover {
-  transform: scale(1.2);
-  color: red;
-  cursor: pointer;
-}
+// .back-arrow:hover {
+//   transform: scale(1.2);
+//   color: red;
+//   cursor: pointer;
+// }
 
 .header-container {
   display: flex;
@@ -61,6 +62,7 @@
 }
 
 .back-arrow {
+  transition: transform 0.3s ease, color 0.3s ease; 
   cursor: pointer;
   font-size: 24px;
 }
