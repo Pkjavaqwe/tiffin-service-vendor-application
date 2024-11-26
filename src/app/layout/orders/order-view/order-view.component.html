@@ -34,7 +34,8 @@
     <button
       mat-stroked-button
       class="my-custom-button"
-      [disabled]="order.delivery_status === 'delivered'"
+      [disabled]="order.delivery_status === 'delivered'|| order.delivery_status==='cancelled'"
+      (click)="changeStatus(order._id)"
     >
       Delivered
     </button>

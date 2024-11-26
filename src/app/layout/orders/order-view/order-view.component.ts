@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { OrderService } from '../services/order.service';
 import { OrderValue } from '../model/order';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { OrderService } from './services/order.service';
 @Component({
   selector: 'app-order-view',
   imports: [MatCardModule, CommonModule, MatDividerModule, MatButtonModule],
@@ -13,7 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './order-view.component.scss',
 })
 export class OrderViewComponent {
-  order: any;
+  order: any={};
   ordersArray: OrderValue[] = [];
 
   constructor(
@@ -52,7 +52,10 @@ export class OrderViewComponent {
   cancelOrder(orderId: string): void {
     console.log("in cancel",orderId);
     
-    this.orderService.cancelOrder(orderId).subscribe(
+    const obs=this.orderService.cancelOrder(orderId)
+    console.log("cancel order...",obs);
+    
+    obs.subscribe(
       (response) => {
         if (response.success) {
           alert(response.message); 
@@ -75,5 +78,8 @@ export class OrderViewComponent {
       this.ordersArray[orderIndex].delivery_status = newStatus;
     }
   
+}
+changeStatus(orderId:string){
+  this.updateOrderStatus(orderId,'delivered');
 }
 }
