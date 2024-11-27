@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Login, UserLoginResponse } from '../models/user';
+import { Login, UserByToken, UserLoginResponse } from '../models/user';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RetailerRegister, Retailers } from '../models/types';
@@ -32,5 +32,11 @@ export class AuthService {
       return true;
     }
     return false;
+  }
+
+  getUserTypeByToken(): Observable<UserByToken> {
+    const baseUrlUserType = environment.apiEndpoint + '/auth/getuserbytoken';
+    const userData = this.http.get<UserByToken>(baseUrlUserType);
+    return userData;
   }
 }

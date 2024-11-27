@@ -27,6 +27,16 @@ export class OrderService {
   //   return this.http.get<any>(url, {});
   // }
 
+  // searchOrders(query: string): Observable<any> {
+  //   const params = new HttpParams().set('query', query);
+
+  //   const obs= this.http.get<any>(`${this.url}/searchorders`, {
+  //     params: params,
+  //   });
+  //   console.log("in search..",obs);
+  //   return obs;
+    
+  // }
   searchOrders(query: string): Observable<any> {
     const params = new HttpParams().set('query', query);
 

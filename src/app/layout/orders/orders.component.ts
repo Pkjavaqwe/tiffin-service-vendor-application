@@ -50,6 +50,7 @@ export class OrdersComponent implements OnInit {
   orderColumns = [
     // { name: '_id', header: 'Order ID' },
     { name: 'customer_name', header: 'Customer Name' },
+    // { name: 'tiffin_name', header: 'Tiffin Name' },
 
     { name: 'payment_mode', header: 'Payment mode' },
 
