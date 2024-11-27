@@ -1,103 +1,3 @@
-<!-- <h2>Order Data</h2>
-<mat-card class="example-card" appearance="outlined">
-  <table mat-table [dataSource]="dataSource" class="table">
-    <ng-container matColumnDef="select">
-      <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox
-          (change)="$event ? toggleAllRows() : null"
-          [checked]="selection.hasValue() && isAllSelected()"
-          [indeterminate]="selection.hasValue() && !isAllSelected()"
-          [aria-label]="checkboxLabel()">
-        </mat-checkbox>
-      </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-checkbox
-          (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle(row) : null"
-          [checked]="selection.isSelected(row)"
-          [aria-label]="checkboxLabel(row)">
-        </mat-checkbox>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef>No.</th>
-      <td mat-cell *matCellDef="let element" (click)="onRowClick(element._id)">{{ element._id }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="payment_status">
-      <th mat-header-cell *matHeaderCellDef>Payment Status</th>
-      <td mat-cell *matCellDef="let element"(click)="onRowClick(element._id)">{{ element.payment_status }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="delivery_status">
-      <th mat-header-cell *matHeaderCellDef>Delivery Status</th>
-      <td mat-cell *matCellDef="let element"(click)="onRowClick(element._id)">{{ element.delivery_status }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="total_amount">
-      <th mat-header-cell *matHeaderCellDef>Total Amount</th>
-      <td mat-cell *matCellDef="let element" (click)="onRowClick(element._id)">{{ element.cart?.items[0]?.price  }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="created_at">
-        <th mat-header-cell *matHeaderCellDef>Created At</th>
-        <td mat-cell *matCellDef="let element" (click)="onRowClick(element._id)">{{ element.created_at | date: 'shortDate' }}</td>
-      </ng-container>
-      
-
-    <ng-container matColumnDef="isActive">
-      <th mat-header-cell *matHeaderCellDef>Is Active</th>
-      <td mat-cell *matCellDef="let element"(click)="onRowClick(element._id)">{{ element.isActive ? 'Yes' : 'No' }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-</mat-card> 
- -->
-
-<!-- <mat-card class="example-card" appearance="outlined">
-  <table mat-table [dataSource]="dataSource" class="table">
-  
-    <ng-container matColumnDef="select">
-      <th class="heading" mat-header-cell *matHeaderCellDef>
-        <mat-checkbox
-          (change)="$event ? toggleAllRows() : null"
-          [checked]="selection.hasValue() && isAllSelected()"
-          [indeterminate]="selection.hasValue() && !isAllSelected()"
-          [aria-label]="'select all'">
-        </mat-checkbox>
-      </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-checkbox
-          (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle(row) : null"
-          [checked]="selection.isSelected(row)"
-          [aria-label]="'select row'">
-        </mat-checkbox>
-      </td>
-    </ng-container>
-
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
-      <th class="heading" mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
-      <td mat-cell *matCellDef="let element" (click)="onRowClick(element,element._id)">
-        <ng-container *ngIf="column.name === 'price'">
-          {{ element.cart?.items[0]?.price || 'N/A' }}
-        </ng-container>
-        <ng-container *ngIf="column.name !== 'price'">
-          {{ applyPipe(element[column.name], column.pipe) }}
-        </ng-container>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-</mat-card>
-
- -->
-
 <mat-card class="my-custom-card example-card" appearance="outlined">
   <table mat-table [dataSource]="dataSource" class="table">
     <ng-container matColumnDef="select">
@@ -159,19 +59,19 @@
         </ng-container>
       </td>
     </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">
-        No data matching the search "{{ searchedQueryNotFound }}"
+      <td class="mat-cell" colspan="7">
+        No data found "{{ searchedQueryNotFound }}"
       </td>
     </tr>
   </table>
   <mat-paginator
+    class="my-custom-paginator"
     [length]="totalItems"
     [pageSize]="pageSize"
-    [pageSizeOptions]="[1, 2, 4, 10]"
+    [pageSizeOptions]="[1, 2, 15, 21]"
     (page)="onPageChange($event)"
     aria-label="Select page"
   >
