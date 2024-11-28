@@ -32,7 +32,7 @@ html {
       container-text-color: #ffffff,
     )
   );
-  .layout-toolbar{
+  .layout-toolbar {
     @include mat.toolbar-overrides(
       (
         container-background-color: var(--mat-sys-primary),
@@ -82,9 +82,10 @@ html {
       )
     );
   }
+
   .my-custom-form-field {
     width: 100%;
-
+    // margin-top: 8px;
     @include mat.icon-overrides(
       (
         color: black,
@@ -118,7 +119,11 @@ html {
   );
   .custome-text-area {
     width: 100%;
-
+    height: 100%;
+    // margin-top: 8px;
+    .mdc-text-field__input {
+      height: 124px;
+    }
     @include mat.icon-overrides(
       (
         color: black,
@@ -129,12 +134,21 @@ html {
       (
         outlined-label-text-size: 0.75rem,
         container-text-size: 0.9rem,
-        container-text-line-height: 0.5rem,
+        container-text-line-height: 1rem,
         outlined-focus-outline-color: black,
         outlined-focus-label-text-color: black,
         outlined-error-label-text-color: red,
         error-text-color: red,
         container-height: 150px,
+      )
+    );
+  }
+  .my-custom-paginator {
+    margin-top: 16px;
+    @include mat.paginator-overrides(
+      (
+        container-background-color: #ffffff,
+        container-text-color: black,
       )
     );
   }

@@ -1,5 +1,5 @@
-<mat-card class="admin-card">
-  <mat-card-content class="card-content">
+<div class="container">
+  <mat-card class="register-card my-custom-card">
     <form [formGroup]="vendorForm" (submit)="collectData()" class="form">
       <h2 id="admin">Signup</h2>
       <div>
@@ -86,8 +86,9 @@
       </div>
       <p>Already have an account? <a routerLink="/">Login</a></p>
     </form>
-  </mat-card-content>
-</mat-card>
+  </mat-card>
+</div>
+
 <!-- <div class="register-container">
   <mat-card>
     <mat-card-header>

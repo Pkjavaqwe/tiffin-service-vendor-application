@@ -6,6 +6,7 @@ import { LoginComponent } from './auth/components/login/login.component';
 import { RegisterComponent } from './auth/components/register/register.component';
 import { ProductComponent } from './layout/product/product.component';
 import { ProductViewComponent } from './layout/product/product-view/product-view.component';
+import { AuthGuard } from './auth/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,7 @@ export const routes: Routes = [
           import('./layout/orders/orders.component').then(
             (m) => m.OrdersComponent
           ),
+        canActivate: [AuthGuard]
       },
       {
         path: 'dashboard',
@@ -34,6 +36,7 @@ export const routes: Routes = [
           import('./layout/dashboard/dashboard.component').then(
             (m) => m.DashboardComponent
           ),
+        canActivate: [AuthGuard]
       },
       { path: 'order/:id', component: OrderViewComponent },
       {
@@ -42,6 +45,7 @@ export const routes: Routes = [
           import('./layout/product/product-view/product-view.component').then(
             (m) => m.ProductViewComponent
           ),
+        canActivate: [AuthGuard]
       },
       {
         path: 'product-view-add',
@@ -49,6 +53,7 @@ export const routes: Routes = [
           import('./layout/product/product-view/product-view.component').then(
             (m) => m.ProductViewComponent
           ),
+        canActivate: [AuthGuard]
       },
       {
         path: 'product',
@@ -56,6 +61,7 @@ export const routes: Routes = [
           import('./layout/product/product.component').then(
             (m) => m.ProductComponent
           ),
+        canActivate: [AuthGuard]
       },
       {
         path: '**',

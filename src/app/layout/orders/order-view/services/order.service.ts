@@ -28,7 +28,7 @@ export class OrderService {
   confirmPayment(orderId: string):Observable<OrderApiResponse> {
 
 
-    const obs= this.http.get<OrderApiResponse>(`${this.url1}/${orderId}`,{});
+    const obs= this.http.get<OrderApiResponse>(`${this.url1}/confirmpayment/${orderId}`,{});
     console.log("confirm..",obs);
     return obs;
   }

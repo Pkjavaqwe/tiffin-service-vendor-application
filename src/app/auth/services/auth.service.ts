@@ -4,11 +4,13 @@ import { Login, UserByToken, UserLoginResponse } from '../models/user';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RetailerRegister, Retailers } from '../models/types';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient) { }
   baseUrlLogin = environment.apiEndpoint + '/auth/login';
@@ -38,5 +40,11 @@ export class AuthService {
     const baseUrlUserType = environment.apiEndpoint + '/auth/getuserbytoken';
     const userData = this.http.get<UserByToken>(baseUrlUserType);
     return userData;
+  }
+  isAccessTokenExpired(): boolean {
+    const token = sessionStorage.getItem('token');
+    if (!token) return true;
+    const isTokenExpired = this.jwtHelper.isTokenExpired(token);
+    return isTokenExpired;
   }
 }

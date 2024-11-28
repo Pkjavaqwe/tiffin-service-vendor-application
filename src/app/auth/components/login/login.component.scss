@@ -1,9 +1,16 @@
 .login-container {
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  padding-left: 250px;
   align-items: center;
-  height: 100vh;
+  height: 100%;
+  width: 81.7%;
   background-color: #f5f5f5;
+  background-image: image-set(
+    "https://d3ljlx3hzhder.cloudfront.net/sprink/b2c_assets/images/banners-01.png"
+  );
+  background-repeat: no-repeat;
+  background-size: 1775px, 500px;
 }
 
 .login-card {

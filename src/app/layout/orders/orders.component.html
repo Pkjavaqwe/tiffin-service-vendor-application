@@ -9,10 +9,9 @@
     <mat-label>Search</mat-label>
     <input 
       matInput 
-      [(ngModel)]="query"  
       placeholder="Search by customer name" 
-      (input)="onSearch()" 
-    />
+      (keyup)="onSearchInput($event)"
+      />
   </mat-form-field>
   <h3 style="color: red;"> {{errorMessage}}</h3>
 </div>

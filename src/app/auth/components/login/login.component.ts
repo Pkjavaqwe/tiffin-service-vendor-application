@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { markAllAsTouched } from '../../../shared/helper';
-
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
@@ -24,7 +23,7 @@ export class LoginComponent {
   ngOnInit(): void {
     const isTokenValid = this.authService.isAuthenticated();
     if (isTokenValid) {
-      this.route.navigate(['/product']);
+      this.route.navigate(['/layout/product']);
     }
   }
   onSubmit() {
@@ -43,7 +42,6 @@ export class LoginComponent {
           sessionStorage.setItem('token', response.token);
           sessionStorage.setItem('retailer_id', response._id);
           console.log("response", response);
-
           this.route.navigate(['/layout/dashboard']);
         },
         error: (error) => {
