@@ -9,14 +9,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-table',
-  imports: [MatCheckboxModule, MatPaginatorModule, MatTableModule, MatCardModule, CommonModule, MatFormFieldModule, MatIconModule],
+  imports: [MatCheckboxModule, FormsModule, MatPaginatorModule, MatTableModule, MatCardModule, CommonModule, MatFormFieldModule, MatIconModule, MatSlideToggle],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
+  onToggleChange(row: any) {
+    row.isActive = !row.isActive;
+    console.log(row);
+
+  }
   // @Input()
   // ordersDetails: OrderValue[] = [];
   // @Input() columns: any[] = [];
@@ -96,6 +103,7 @@ export class TableComponent {
   updateButton = new EventEmitter<Boolean>();
   @Input()
   searchedQueryNotFound: string = "";
+  // isChecked = true
 
   constructor(private router: Router, private activeRoute: ActivatedRoute) {
     this.routeUrl = activeRoute.snapshot.routeConfig?.path
@@ -167,6 +175,7 @@ export class TableComponent {
   }
 
   applyPipe(value: any, pipeName: string) {
+
     if (pipeName === 'date') {
       const datePipe = new DatePipe('en-US');
       return datePipe.transform(value, 'shortDate');

@@ -20,7 +20,6 @@
         </mat-checkbox>
       </td>
     </ng-container>
-
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
       <th class="heading" mat-header-cell *matHeaderCellDef>
         {{ column.header }}
@@ -30,6 +29,13 @@
         *matCellDef="let element"
         (click)="onRowClick(element, element._id)"
       >
+        <!-- <ng-container *ngIf="column.name === 'isActive'">
+          <mat-slide-toggle
+            [checked]="element.isActive"
+            (change)="onToggleChange(element)"
+          >
+          </mat-slide-toggle>
+        </ng-container> -->
         <ng-container *ngIf="column.name === 'payment_status'">
           <span
             [ngClass]="{
@@ -53,7 +59,11 @@
           <ng-container *ngIf="column.name === 'price'">
             {{ element.cart?.items[0]?.price || "N/A" }}
           </ng-container>
-          <ng-container *ngIf="column.name !== 'price'">
+          <ng-container *ngIf="column.name === 'tiffin_isavailable'">
+            {{ element.tiffin_isavailable ? "Available" : "Not Available" }}
+          </ng-container>
+
+          <ng-container *ngIf="column.name !== 'tiffin_isavailable'">
             {{ applyPipe(element[column.name], column.pipe) }}
           </ng-container>
         </ng-container>

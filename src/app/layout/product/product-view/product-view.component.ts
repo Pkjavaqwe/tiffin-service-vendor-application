@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { booleanAttribute, Component, Input } from '@angular/core';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -11,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { _MatSlideToggleRequiredValidatorModule, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ProductsService } from '../services/products.service';
 import { Tiffin } from '../models/tiffin';
 import { HttpClient } from '@angular/common/http';
@@ -30,7 +30,8 @@ import { SnackbarService } from '../../../shared/snackbar.service';
     RouterModule,
     ScrollingModule,
     MatToolbarModule,
-    MatSlideToggleModule],
+    MatSlideToggleModule,
+    FormsModule],
   templateUrl: './product-view.component.html',
   styleUrl: './product-view.component.scss',
 })
@@ -39,6 +40,10 @@ export class ProductViewComponent {
   tiffin!: Tiffin;
   routeUrl: string | undefined = ""
   uploadedImageUrl: string = '';
+
+
+
+
   constructor(private router: Router, private snackbar: SnackbarService, private activeRoute: ActivatedRoute, private productService: ProductsService, private http: HttpClient) {
     const routeParams = this.activeRoute.snapshot.paramMap.get('_id')
     this.routeUrl = activeRoute.snapshot.routeConfig?.path
@@ -54,8 +59,10 @@ export class ProductViewComponent {
       tiffin_description: new FormControl('', [Validators.required]),
       tiffin_type: new FormControl('', [Validators.required]),
       tiffin_image_url: new FormControl(''),
+      tiffin_isavailable: new FormControl(''),
     })
   }
+
 
   goBack() {
     this.router.navigate(['/layout/product']);
@@ -63,11 +70,14 @@ export class ProductViewComponent {
   collectData() {
     console.log("tiffinForm", this.tiffinForm);
     this.tiffin = this.tiffinForm.value;
-    this.tiffin.isActive = true;
+    // this.tiffin.isActive = true;
+
+
     this.tiffin.tiffin_isavailable = true;
     this.tiffin.retailer_id = sessionStorage.getItem('retailer_id');
     this.tiffin.tiffin_image_url = this.uploadedImageUrl
-
+    this.tiffin.tiffin_isavailable = this.tiffinForm.get('tiffin_isavailable')?.value;
+    console.log("isActive from tiffinForm", this.tiffin);
     console.log(this.tiffin);
     if (this.routeUrl?.includes('product-view-add')) {
       this.addTiffin();
@@ -161,6 +171,7 @@ export class ProductViewComponent {
         next: (response) => {
           console.log(response);
           this.snackbar.showSuccess('tiffin deleted successfully')
+          this.router.navigate(['layout/product']);
         },
         error: (err) => {
           console.log(err);

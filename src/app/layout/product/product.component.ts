@@ -1,7 +1,7 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
@@ -18,6 +18,7 @@ import { Tiffin } from './models/tiffin';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { SearchService } from '../../shared/search.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @Component({
   selector: 'app-product',
   imports: [ReactiveFormsModule,
@@ -32,12 +33,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
     RouterModule,
     ScrollingModule,
     MatToolbarModule,
-    MatSlideToggleModule, TableComponent],
+    MatSlideToggleModule, TableComponent, MatCheckboxModule, FormsModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
 export class ProductComponent {
-
+  checked = false;
+  disabled = false;
   totalTiffins = 0;
   pageSize = 3;
   currentPage = 1;
@@ -53,7 +55,7 @@ export class ProductComponent {
     { name: 'tiffin_name', header: 'tiffin' },
     { name: 'tiffin_price', header: 'price' },
     { name: 'tiffin_available_quantity', header: 'quantity' },
-    { name: 'isActive', header: 'status' }
+    { name: 'tiffin_isavailable', header: 'Availability' }
   ];
 
   constructor(private productService: ProductsService, private router: Router, private searchService: SearchService) {

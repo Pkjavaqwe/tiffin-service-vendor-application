@@ -5,6 +5,8 @@ import { TableComponent } from '../../shared/table/table.component';
 import { MatInputModule } from '@angular/material/input';
 import { PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
+import { SearchService } from '../../shared/search.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-orders',
@@ -19,7 +21,12 @@ export class OrdersComponent implements OnInit {
   totalPages: number = 0;
   pagesize: number = 2;
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private searchService: SearchService) {
+    searchService.getFilter().pipe(debounceTime(1500), distinctUntilChanged()).subscribe((query) => {
+      console.log('searchQuery', query);
+      this.onSearch(query);
+    });
+  }
   ngOnInit(): void {
     this.getOrders(this.currentPage, this.pagesize);
   }
@@ -66,10 +73,14 @@ export class OrdersComponent implements OnInit {
   query: string = '';
   errorMessage: string = '';
 
-  onSearch() {
+  onSearchInput(event: any) {
+    const query = event.target.value;
+    this.searchService.setFilter(query);
+  }
+  onSearch(query: string) {
     console.log('in search...', this.query);
 
-    if (!this.query) {
+    if (!query) {
       this.ordersArray = [];
 
       this.getOrders(this.currentPage, this.pagesize);
