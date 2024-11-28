@@ -7,6 +7,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../shared/search.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { SearchService } from '../../shared/search.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-orders',
@@ -21,12 +23,7 @@ export class OrdersComponent implements OnInit {
   totalPages: number = 0;
   pagesize: number = 2;
 
-  constructor(private orderService: OrderService, private searchService: SearchService) {
-    searchService.getFilter().pipe(debounceTime(1500), distinctUntilChanged()).subscribe((query) => {
-      console.log('searchQuery', query);
-      this.onSearch(query);
-    });
-  }
+  constructor(private orderService: OrderService) { }
   ngOnInit(): void {
     this.getOrders(this.currentPage, this.pagesize);
   }
@@ -57,12 +54,13 @@ export class OrdersComponent implements OnInit {
   orderColumns = [
     // { name: '_id', header: 'Order ID' },
     { name: 'customer_name', header: 'Customer Name' },
+    { name: 'tiffin_name', header: 'Tiffin Name' },
 
     { name: 'payment_mode', header: 'Payment mode' },
 
     { name: 'payment_status', header: 'Payment Status' },
     { name: 'delivery_status', header: 'Delivery Status' },
-    { name: 'price', header: 'Price' },
+    // { name: 'price', header: 'Price' },
     { name: 'created_at', header: 'Date', pipe: 'date' },
     { name: 'isActive', header: 'Is Active' },
   ];
@@ -70,7 +68,6 @@ export class OrdersComponent implements OnInit {
     console.log('Row clicked:', row);
   }
 
-  query: string = '';
   errorMessage: string = '';
 
   onSearchInput(event: any) {
@@ -88,7 +85,7 @@ export class OrdersComponent implements OnInit {
       return;
     }
 
-    this.orderService.searchOrders(this.query).subscribe(
+    this.orderService.searchOrders(query).subscribe(
       (response) => {
         if (response.success) {
           console.log('response....', response.data);

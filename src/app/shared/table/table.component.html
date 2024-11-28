@@ -56,8 +56,8 @@
             column.name !== 'payment_status' && column.name !== 'customer_name'
           "
         >
-          <ng-container *ngIf="column.name === 'price'">
-            {{ element.cart?.items[0]?.price || "N/A" }}
+          <ng-container *ngIf="column.name === 'tiffin_name'">
+            {{ element.cart?.items[0]?.tiffin_name }}
           </ng-container>
           <ng-container *ngIf="column.name === 'tiffin_isavailable'">
             {{ element.tiffin_isavailable ? "Available" : "Not Available" }}

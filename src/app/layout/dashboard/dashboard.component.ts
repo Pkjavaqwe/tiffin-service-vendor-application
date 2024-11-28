@@ -13,6 +13,7 @@ import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,94 +30,6 @@ import { MatSliderModule } from '@angular/material/slider';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-  // public chartOptions!: AgChartOptions;
-  // public filter: 'weekly' | 'monthly' = 'monthly';
-
-  // constructor() {
-  //   // Initially load monthly data
-  //   this.updateChartData();
-  // }
-
-  // // Method to toggle between weekly and monthly filters
-  // toggleFilter(filter: 'weekly' | 'monthly') {
-  //   this.filter = filter; // Set the filter to either 'weekly' or 'monthly'
-  //   this.updateChartData(); // Update the chart data based on the selected filter
-  // }
-
-  // // Method to update chart data based on the selected filter
-  // private updateChartData() {
-  //   // Data for weekly view (weeks and corresponding values)
-  //   const weeklyData = [
-  //     { week: 'Week 1', totalOrders: 5, totalAmount: 500 },
-  //     { week: 'Week 2', totalOrders: 10, totalAmount: 1000 },
-  //     { week: 'Week 3', totalOrders: 15, totalAmount: 1500 },
-  //     { week: 'Week 4', totalOrders: 20, totalAmount: 2000 },
-  //   ];
-
-  //   // Data for monthly view (months and corresponding values)
-  //   const monthlyData = [
-  //     { month: 'Jan', totalOrders: 10, totalAmount: 1000 },
-  //     { month: 'Feb', totalOrders: 20, totalAmount: 2000 },
-  //     { month: 'Mar', totalOrders: 30, totalAmount: 3000 },
-  //     { month: 'Apr', totalOrders: 40, totalAmount: 4000 },
-  //     { month: 'May', totalOrders: 50, totalAmount: 5000 },
-  //   ];
-
-  //   // Set the data based on the filter
-  //   let chartData = [];
-  //   if (this.filter === 'weekly') {
-  //     chartData = weeklyData;  // Use weekly data if the filter is 'weekly'
-  //   } else {
-  //     chartData = monthlyData;  // Use monthly data if the filter is 'monthly'
-  //   }
-
-  //   // Update chart options dynamically
-  //   this.chartOptions = {
-  //     data: chartData,
-  //     series: [
-  //       {
-  //         type: 'line',
-  //         xKey: this.filter === 'weekly' ? 'week' : 'month', // x-axis will be 'week' or 'month' based on filter
-  //         yKey: 'totalOrders',
-  //         title: 'Total Orders',
-  //       },
-  //       {
-  //         type: 'line',
-  //         xKey: this.filter === 'weekly' ? 'week' : 'month', // x-axis will be 'week' or 'month' based on filter
-  //         yKey: 'totalAmount',
-  //         title: 'Total Amount',
-  //       }
-  //     ],
-  //     title: {
-  //       text: this.filter === 'weekly' ? 'Weekly Orders Overview' : 'Monthly Orders Overview',
-  //       fontSize: 18,
-  //       fontWeight: 'bold',
-  //     },
-  //     subtitle: {
-  //       text: this.filter === 'weekly' ? 'Weekly Data for Orders and Amount' : 'Monthly Data for Orders and Amount',
-  //       fontSize: 14,
-  //     },
-  //     axes: [
-  //       {
-  //         type: 'category',
-  //         position: 'bottom',
-  //         title: { text: this.filter === 'weekly' ? 'Week' : 'Month' },
-  //       },
-  //       {
-  //         type: 'number',
-  //         position: 'left',
-  //         title: { text: 'Value' },
-  //       }
-  //     ],
-  //     legend: {
-  //       position: 'top',
-  //     },
-  //     tooltip: {
-  //       enabled: true,
-  //     }
-  //   };
-  // }
-
   public filter: 'weekly' | 'monthly' = 'monthly';
   public chartOptions!: AgChartOptions;
   organizationsArray: Organization[] = [];
@@ -161,9 +74,25 @@ export class DashboardComponent {
 
   constructor(
     private orderService: WeeklyMonthlyOrdersService,
-    private organizationService: OrganizationService
+    private organizationService: OrganizationService,
+    private authService: AuthService
   ) {
     this.updateChartData();
+  }
+
+  userStatus: string | null = null;
+  getUserByToken() {
+    const userByToken = this.authService.getUserTypeByToken();
+    userByToken.subscribe({
+      next: (userData) => {
+        console.log("userdata", userData)
+        // this.userStatus = userData.data.role_specific_details.approval_status;
+        const approvalStatuses = userData.data.role_specific_details.approval.map(item => item.approval_status);
+        console.log("approvalStatuses",approvalStatuses);
+        
+      },
+      error: () => { },
+    });
   }
 
   updateChartData() {
@@ -235,11 +164,33 @@ export class DashboardComponent {
     this.updateChartData();
   }
 
-  public ordersData: any;
+  // public ordersData: any;
+
+  // ngOnInit(): void {
+  //   this.getOrders('week', 'pending', 2024);
+  //   this.getAllOrganizations();
+  // }
+
+  // getOrders(filter: 'week' | 'month', status: string, year: number): void {
+  //   this.orderService
+  //     .getAllWeeklyAndMonthlyOrders(filter, status, year)
+  //     .subscribe({
+  //       next: (response: OrderApiResponse) => {
+  //         console.log('Orders Data:', response.data);
+  //         this.ordersData = response.data;
+  //       },
+  //       error: (error) => {
+  //         console.error('Error fetching orders:', error);
+  //       },
+  //     });
+  // }
+
+  ordersData: any;
 
   ngOnInit(): void {
     this.getOrders('week', 'pending', 2024);
     this.getAllOrganizations();
+    this.getUserByToken()
   }
 
   getOrders(filter: 'week' | 'month', status: string, year: number): void {
@@ -249,12 +200,76 @@ export class DashboardComponent {
         next: (response: OrderApiResponse) => {
           console.log('Orders Data:', response.data);
           this.ordersData = response.data;
+          this.updateChartData();
         },
         error: (error) => {
           console.error('Error fetching orders:', error);
         },
       });
   }
+
+  // updateChartData(): void {
+  //   if (this.filter === 'weekly') {
+  //     this.chartOptions = {
+  //       data: this.ordersData.map((item: any) => ({
+  //         week: `${item.startOfWeek} - ${item.endOfWeek}`,
+  //         totalOrders: item.totalOrders,
+  //         totalAmount: item.totalAmount,
+  //       })),
+  //       series: [
+  //         {
+  //           type: 'line',
+  //           xKey: 'week',
+  //           yKey: 'totalOrders',
+  //           title: 'Total Orders',
+  //         },
+  //         {
+  //           type: 'line',
+  //           xKey: 'week',
+  //           yKey: 'totalAmount',
+  //           title: 'Total Amount',
+  //         },
+  //       ],
+  //       title: {
+  //         text: 'Weekly Orders Overview',
+  //         fontSize: 18,
+  //         fontWeight: 'bold',
+  //       },
+  //     };
+  //   } else {
+  //     this.chartOptions = {
+  //       data: this.ordersData.map((item: any) => ({
+  //         month: item.month,
+  //         totalOrders: item.totalOrders,
+  //         totalAmount: item.totalAmount,
+  //       })),
+  //       series: [
+  //         {
+  //           type: 'line',
+  //           xKey: 'month',
+  //           yKey: 'totalOrders',
+  //           title: 'Total Orders',
+  //         },
+  //         {
+  //           type: 'line',
+  //           xKey: 'month',
+  //           yKey: 'totalAmount',
+  //           title: 'Total Amount',
+  //         },
+  //       ],
+  //       title: {
+  //         text: 'Monthly Orders Overview',
+  //         fontSize: 18,
+  //         fontWeight: 'bold',
+  //       },
+  //     };
+  //   }
+  // }
+
+  // toggleFilter(filter: 'weekly' | 'monthly'): void {
+  //   this.filter = filter;
+  //   this.updateChartData();
+  // }
 
   getAllOrganizations(): void {
     this.organizationService.getAllOrganizationsApi().subscribe({
@@ -268,26 +283,24 @@ export class DashboardComponent {
     });
   }
 
-  onRegisterClick(organizationId: string, location:string) {
+  onRegisterClick(organizationId: string, location: string) {
     const token = sessionStorage.getItem('token');
-    console.log("token",token);
-    
+    console.log('token', token);
 
     if (token) {
-      const obs = this.organizationService.addRequest(organizationId,location);
+      const obs = this.organizationService.addRequest(organizationId, location);
       console.log('kahajhss', location);
 
       obs.subscribe(
         (response) => {
           console.log('Request added successfully', response);
           // this.snackBar.open('Request added successfully', 'Close', { duration: 2000 });
-          alert("Request added successfully")
+          alert('Request added successfully');
         },
         (error) => {
           console.error('Error adding request', error);
           // this.snackBar.open('Failed to add request', 'Close', { duration: 2000 });
-          alert("Failed to add request")
-
+          alert('Failed to add request');
         }
       );
     } else {

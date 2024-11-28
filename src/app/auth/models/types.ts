@@ -10,7 +10,16 @@ export interface Organization {
 
 export interface RoleDetails {
     gst_no: string
+    organization_id: string;
+    org_location: string;
+    approval: Approval[];
 }
+
+export interface Approval {
+    approval_status: string;
+    organization_id: string;
+    org_loc?: string | null;
+  }
 
 export interface Retailers {
     username: string;
