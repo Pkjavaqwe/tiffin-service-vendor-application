@@ -41,6 +41,7 @@ export class LoginComponent {
         next: (response) => {
           sessionStorage.setItem('token', response.token);
           sessionStorage.setItem('retailer_id', response._id);
+          sessionStorage.setItem('refreshToken', response.refreshToken);
           console.log("response", response);
           this.route.navigate(['/layout/dashboard']);
         },

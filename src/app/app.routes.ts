@@ -48,7 +48,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'product-view-add',
+        path: 'product-add',
         loadComponent: () =>
           import('./layout/product/product-view/product-view.component').then(
             (m) => m.ProductViewComponent

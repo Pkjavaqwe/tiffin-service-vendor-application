@@ -1,29 +1,35 @@
 <div class="container">
-  <mat-toolbar class="mat-toolbar">
-    <div class="mat-tool-right">
-      <button mat-icon-button class="my-custom-button">
-        <mat-icon (click)="goBack()">arrow_back</mat-icon>
+  <div>
+    <mat-toolbar class="mat-toolbar">
+      <div class="mat-tool-right">
+        <button mat-icon-button class="my-custom-button">
+          <mat-icon (click)="goBack()">arrow_back</mat-icon>
+        </button>
+        <h1>Edit Product</h1>
+      </div>
+      <button mat-stroked-button color="primary" class="my-custom-button">
+        Update
       </button>
-      <h1>Edit Product</h1>
-    </div>
-    <button mat-stroked-button color="primary" class="my-custom-button">
-      Update
-    </button>
-  </mat-toolbar>
+    </mat-toolbar>
+  </div>
+
   <div class="section-two">
     <div class="quick-link">
-      <mat-card class="my-custom-card">
+      <mat-card class="my-custom-card fixed-card">
         <mat-card-content>
           <h2>Quick Links</h2>
           <ul>
-            <li>
-              <a href="#">Product List</a>
+            <li (click)="gotoTiffinDetails()">
+              <a>details</a>
             </li>
-            <li>
-              <a href="#">Add Product</a>
+            <li (click)="gotoUploadImage()">
+              <a>upload image</a>
             </li>
-            <li>
-              <a href="#">Edit Product</a>
+            <li (click)="goToTiffinAvailability()">
+              <a>tifin availability</a>
+            </li>
+            <li (click)="goToTiffinCategory()">
+              <a>tiffin category</a>
             </li>
           </ul>
         </mat-card-content>
@@ -32,7 +38,7 @@
     <div class="product-info">
       <form [formGroup]="tiffinForm">
         <div class="form-content">
-          <div class="card-one">
+          <div class="card-one" #tiffindetails id="tiffin details">
             <mat-card class="my-custom-card">
               <mat-card-header class="mat-card-header"
                 >Tiffin Information</mat-card-header
@@ -87,7 +93,7 @@
                 </mat-form-field>
               </mat-card-content>
             </mat-card>
-            <div>
+            <div #uploadimage id="#uploadimage">
               <mat-card class="my-custom-card">
                 <mat-card-content>
                   <label>Upload Product Image</label>
@@ -100,7 +106,7 @@
                 </mat-card-content>
               </mat-card>
             </div>
-            <div>
+            <div #tifinavailability id="tifinavailability">
               <mat-card class="my-custom-card">
                 <mat-card-content>
                   <label>tiffin Availability status </label>
@@ -110,7 +116,7 @@
               </mat-card>
             </div>
           </div>
-          <div class="card-two">
+          <div #tifincategory id="#tifincategory">
             <mat-card class="my-custom-card">
               <mat-card-content>
                 <mat-form-field

@@ -6,6 +6,7 @@ export interface UserLoginResponse {
     success: boolean,
     message: string,
     _id: string,
+    refreshToken: string,
 }
 export interface Login {
     email: string | null;
@@ -15,4 +16,12 @@ export interface Login {
 export interface UserByToken {
     statuscode: number;
     data: Retailers;
-  }
+}
+export interface RefreshTokenResponse {
+    statusCode: number;
+    success: boolean,
+    message: string,
+    _id: string,
+    newAccessToken: string,
+    newRefreshToken: string,
+}

@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule, MatNavList } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { SnackbarService } from '../shared/snackbar.service';
 @Component({
   selector: 'app-layout',
   imports: [
@@ -49,7 +50,7 @@ export class LayoutComponent {
 
   collapsed: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private snackbar: SnackbarService) { }
 
   collapsedState() {
     this.collapsed = !this.collapsed;
@@ -62,7 +63,7 @@ export class LayoutComponent {
 
   logout() {
     sessionStorage.removeItem('token');
-    window.alert('Logged out successfully...');
+    this.snackbar.showError('Logged out successfully');
     this.router.navigate(['/']);
   }
 }

@@ -1,4 +1,4 @@
-import { booleanAttribute, Component, Input } from '@angular/core';
+import { booleanAttribute, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -41,6 +41,31 @@ export class ProductViewComponent {
   routeUrl: string | undefined = ""
   uploadedImageUrl: string = '';
 
+  @ViewChild('tiffindetails')
+  public tiffindetails!: ElementRef;
+
+  @ViewChild('tiffinAvailability')
+  public tiffinAvailability!: ElementRef;
+
+  @ViewChild('uploadimage')
+  public uploadimage!: ElementRef;
+
+  @ViewChild('tifincategory')
+  public tifincategory!: ElementRef;
+
+  goToTiffinAvailability(): void {
+    this.tiffinAvailability.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
+
+  }
+  goToTiffinCategory(): void {
+    this.tifincategory.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
+  }
+  gotoTiffinDetails(): void {
+    this.tiffindetails.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
+  }
+  gotoUploadImage(): void {
+    this.uploadimage.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' });
+  }
 
 
 
@@ -80,6 +105,7 @@ export class ProductViewComponent {
     console.log("isActive from tiffinForm", this.tiffin);
     console.log(this.tiffin);
     if (this.routeUrl?.includes('product-view-add')) {
+
       this.addTiffin();
       this.snackbar.showSuccess("tiffin added successfully")
     } else {

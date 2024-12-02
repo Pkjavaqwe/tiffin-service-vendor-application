@@ -55,7 +55,8 @@ export class ProductComponent {
     { name: 'tiffin_name', header: 'tiffin' },
     { name: 'tiffin_price', header: 'price' },
     { name: 'tiffin_available_quantity', header: 'quantity' },
-    { name: 'tiffin_isavailable', header: 'Availability' }
+    { name: 'tiffin_isavailable', header: 'Availability' },
+    { name: 'tiffin_type', header: 'Type' }
   ];
 
   constructor(private productService: ProductsService, private router: Router, private searchService: SearchService) {
@@ -83,7 +84,7 @@ export class ProductComponent {
   }
 
   goToProductDetails() {
-    this.router.navigate(['/layout/product-view-add']);
+    this.router.navigate(['/layout/product-add']);
   }
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;

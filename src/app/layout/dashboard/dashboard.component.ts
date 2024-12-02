@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { AuthService } from '../../auth/services/auth.service';
+import { SnackbarService } from '../../shared/snackbar.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,6 +38,7 @@ export class DashboardComponent {
   currentPage = 0;
   cardHeight: number = 300;
   cardWidth: number = 280;
+
 
   public weeklyData = [
     {
@@ -75,7 +77,8 @@ export class DashboardComponent {
   constructor(
     private orderService: WeeklyMonthlyOrdersService,
     private organizationService: OrganizationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: SnackbarService
   ) {
     this.updateChartData();
   }
@@ -88,8 +91,8 @@ export class DashboardComponent {
         console.log("userdata", userData)
         // this.userStatus = userData.data.role_specific_details.approval_status;
         const approvalStatuses = userData.data.role_specific_details.approval.map(item => item.approval_status);
-        console.log("approvalStatuses",approvalStatuses);
-        
+        console.log("approvalStatuses", approvalStatuses);
+
       },
       error: () => { },
     });
@@ -276,6 +279,7 @@ export class DashboardComponent {
       next: (orgData) => {
         console.log('data', orgData.data);
         this.organizationsArray = orgData.data;
+
       },
       error: (err) => {
         console.log(err);
@@ -295,12 +299,12 @@ export class DashboardComponent {
         (response) => {
           console.log('Request added successfully', response);
           // this.snackBar.open('Request added successfully', 'Close', { duration: 2000 });
-          alert('Request added successfully');
+          this.snackBar.showSuccess('Request added successfully');
         },
         (error) => {
           console.error('Error adding request', error);
           // this.snackBar.open('Failed to add request', 'Close', { duration: 2000 });
-          alert('Failed to add request');
+          this.snackBar.showError('Failed to add request');
         }
       );
     } else {

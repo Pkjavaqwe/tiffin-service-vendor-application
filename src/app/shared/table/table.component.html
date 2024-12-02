@@ -1,5 +1,11 @@
 <mat-card class="my-custom-card example-card" appearance="outlined">
-  <table mat-table [dataSource]="dataSource" class="table">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    class="table"
+    matSort
+    (matSortChange)="announceSortChange($event)"
+  >
     <ng-container matColumnDef="select">
       <th class="heading" mat-header-cell *matHeaderCellDef>
         <mat-checkbox
@@ -21,7 +27,13 @@
       </td>
     </ng-container>
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.name">
-      <th class="heading" mat-header-cell *matHeaderCellDef>
+      <th
+        class="heading"
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by {{ column.name }}"
+      >
         {{ column.header }}
       </th>
       <td
@@ -63,7 +75,21 @@
             {{ element.tiffin_isavailable ? "Available" : "Not Available" }}
           </ng-container>
 
-          <ng-container *ngIf="column.name !== 'tiffin_isavailable'">
+          <ng-container *ngIf="column.name === 'tiffin_type'">
+            <ng-container *ngIf="element.tiffin_type === 'veg'">
+              <mat-icon class="veg-icon" matTooltip="Veg">eco</mat-icon>
+            </ng-container>
+            <ng-container *ngIf="element.tiffin_type !== 'veg'">
+              <mat-icon class="non-veg-icon" matTooltip="Non-Veg">eco</mat-icon>
+            </ng-container>
+          </ng-container>
+
+          <ng-container
+            *ngIf="
+              column.name !== 'tiffin_isavailable' &&
+              column.name !== 'tiffin_type'
+            "
+          >
             {{ applyPipe(element[column.name], column.pipe) }}
           </ng-container>
         </ng-container>
