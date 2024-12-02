@@ -7,6 +7,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule, MatNavList } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../auth/services/auth.service';
+import { SnackbarService } from '../shared/snackbar.service';
 @Component({
   selector: 'app-layout',
   imports: [
@@ -48,8 +50,27 @@ export class LayoutComponent {
   ];
 
   collapsed: boolean = false;
+  image = '';
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private snackBarService: SnackbarService
+  ) {}
+
+  ngOnInit(): void {
+    this.fetchUserProfileImage();
+  }
+
+  fetchUserProfileImage(): void {
+    const adminDetails = this.authService.getUserTypeByToken();
+    adminDetails.subscribe({
+      next: (formData) => {
+        console.log('profile details', formData.data);
+        this.image = formData.data.user_image;
+      },
+    });
+  }
 
   collapsedState() {
     this.collapsed = !this.collapsed;
@@ -62,7 +83,11 @@ export class LayoutComponent {
 
   logout() {
     sessionStorage.removeItem('token');
-    window.alert('Logged out successfully...');
+    this.snackBarService.showSuccess('Logged out successfully...');
     this.router.navigate(['/']);
+  }
+
+  updateProfile() {
+    this.router.navigate(['/layout/profile-update']);
   }
 }

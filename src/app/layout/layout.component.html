@@ -6,7 +6,23 @@
     <span class="tiffin-title-black">Tiffin</span>
     <span class="tiffin-title-white">Services</span>
   </span>
-</mat-toolbar>
+  <span class="space-between"></span>
+  <span >
+    <mat-icon (click)="updateProfile()" class="image-icon">
+      <img
+      *ngIf="image; else defaultImage"
+      [src]="image"
+        class="profile-picture"
+      />
+      <ng-template #defaultImage>
+        <img
+          src="assets/default-user.png"
+          alt="Default User"
+          class="profile-picture"
+        />
+      </ng-template>
+    </mat-icon>
+  </span></mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav

@@ -7,6 +7,7 @@ import { RegisterComponent } from './auth/components/register/register.component
 import { ProductComponent } from './layout/product/product.component';
 import { ProductViewComponent } from './layout/product/product-view/product-view.component';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { ProfileUpdateComponent } from './auth/components/profile-update/profile-update.component';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,7 @@ export const routes: Routes = [
     path: 'layout',
     loadComponent: () =>
       import('./layout/layout.component').then((m) => m.LayoutComponent),
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'orders',
@@ -62,6 +64,10 @@ export const routes: Routes = [
             (m) => m.ProductComponent
           ),
         canActivate: [AuthGuard]
+      },
+      {
+        path: "profile-update",
+        component:ProfileUpdateComponent
       },
       {
         path: '**',

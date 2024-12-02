@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RetailerRegister, Retailers } from '../models/types';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { CloudinaryResponse } from '../../layout/product/models/tiffin';
 @Injectable({
   providedIn: 'root'
 })
@@ -46,5 +47,23 @@ export class AuthService {
     if (!token) return true;
     const isTokenExpired = this.jwtHelper.isTokenExpired(token);
     return isTokenExpired;
+  }
+
+  uploadImage(file: File): Observable<CloudinaryResponse> {
+    const baseUrlOrgImage = environment.apiEndpoint + '/auth/uploaduserimage'
+    let formData = new FormData();
+    formData.append('recfile', file)
+    const observableData = this.http.post<CloudinaryResponse>(
+      baseUrlOrgImage,
+      formData
+    );
+    return observableData;
+  }
+
+  updateProfile(id:string, formadata:Retailers){
+    const obs=this.http.put(`${environment.apiEndpoint}/auth/updateprofile/${id}`,formadata)
+    console.log("in update profile service");
+    return obs;
+    
   }
 }
