@@ -83,7 +83,7 @@ export class RegisterComponent {
 
 
   get userName() {
-    return this.vendorForm.get('userName');
+    return this.vendorForm.get('username');
   }
   get errorMessageUserName(): string {
     const control = this.userName;

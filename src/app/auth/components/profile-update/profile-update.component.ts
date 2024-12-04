@@ -20,6 +20,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { LayoutComponent } from '../../../layout/layout.component';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-profile-update',
@@ -33,6 +36,7 @@ import { CommonModule } from '@angular/common';
     MatOptionModule,
     MatIconModule,
     CommonModule,
+    MatGridListModule,
   ],
   templateUrl: './profile-update.component.html',
   styleUrl: './profile-update.component.scss',
@@ -42,11 +46,13 @@ export class ProfileUpdateComponent {
   flag: boolean = false;
   id: string = '';
   imageUrl!: string;
+  userImage = '';
   constructor(
     private authService: AuthService,
     private router: Router,
     private snackbar: SnackbarService,
-    private validator: CustomValidatorService
+    private validator: CustomValidatorService,
+    private imageService: ImageService
   ) {
     this.vendorForm = new FormGroup({
       username: new FormControl('', [
@@ -168,7 +174,7 @@ export class ProfileUpdateComponent {
       const { confirmPassword, ...formData } = this.vendorForm.value;
       (formData.username = formData.username),
         (formData.email = formData.email),
-        (formData.user_image = this.imageUrl),
+        (formData.user_image = this.userImage),
         (formData.contact_number = formData.contactNumber),
         (formData.address = formData.address),
         (formData.role_id = formData.role_id),
@@ -188,6 +194,7 @@ export class ProfileUpdateComponent {
           console.log('response', response);
 
           this.snackbar.showSuccess('Profile updated successfully...');
+          this.imageService.updateImage(this.userImage);
         },
       });
     } else {
@@ -202,6 +209,7 @@ export class ProfileUpdateComponent {
       next: (formData) => {
         console.log('vendor details...', formData.data);
         this.id = formData.data._id;
+        this.userImage = formData.data.user_image;
         console.log('status', this.id);
         this.patchFormData(formData.data);
       },
@@ -235,7 +243,7 @@ export class ProfileUpdateComponent {
       this.authService.uploadImage(imageControl).subscribe({
         next: (response) => {
           console.log('image', response.image);
-          this.imageUrl = response.image;
+          this.userImage = response.image;
         },
       });
     }

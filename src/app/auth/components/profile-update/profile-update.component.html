@@ -2,8 +2,20 @@
   <mat-card class="register-card my-custom-card">
     <form [formGroup]="vendorForm" (submit)="collectData()" class="form">
       <h2 id="admin">Update Profile</h2>
-     
-      <div>
+      <div class="image-icon">
+      <img
+      [src]="userImage"
+        class="profile-picture"
+      />
+      <ng-template #defaultImage>
+        <img
+          src="assets/default-user.png"
+          alt="Default User"
+          class="profile-picture"
+        />
+      </ng-template>
+    </div>
+      <div style="display: flex;  gap: 10px; flex-wrap: wrap;">
         <mat-form-field appearance="outline" class="my-custom-form-field">
           <mat-label>Username</mat-label>
           <input
@@ -17,8 +29,7 @@
             {{ errorMessageUserName }}
           </mat-error>
         </mat-form-field>
-      </div>
-      <div>
+
         <mat-form-field appearance="outline" class="my-custom-form-field">
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" type="email" />
@@ -28,7 +39,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div>
+      <div style="display: flex;  gap: 10px; flex-wrap: wrap;">
         <mat-form-field appearance="outline" class="my-custom-form-field">
           <mat-label>Contact Number</mat-label>
           <input matInput formControlName="contactNumber" />
@@ -37,8 +48,7 @@
             {{ errorMessageContactNumber }}
           </mat-error>
         </mat-form-field>
-      </div>
-      <div>
+
         <mat-form-field appearance="outline" class="my-custom-form-field">
           <mat-label>Address</mat-label>
           <input matInput formControlName="address" type="text" />
@@ -49,15 +59,14 @@
         </mat-form-field>
       </div>
 
-      <div formGroupName="role_specific_details">
-        <div class="form-field">
-          <mat-form-field appearance="outline" class="my-custom-form-field">
+      <div  style="display: flex;  gap: 10px; flex-wrap: wrap;">
+      
+          <mat-form-field appearance="outline" class="my-custom-form-field" formGroupName="role_specific_details">
             <mat-label>GST No</mat-label>
             <input matInput type="text" formControlName="gst_no" />
           </mat-form-field>
-        </div>
-      </div>
-      <div class="form-field">
+
+      <div class="my-custom-form-field">
         <input
           id="image-upload"
           formControlName="userImage"
@@ -67,6 +76,83 @@
           (change)="onFileSelected($event)"
         />
       </div>
+      </div>
+      <div class="button-row">
+        <button mat-flat-button type="submit" class="mat-mdc-button">
+          UPDATE
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div> 
+
+
+
+<!-- <div class="container">
+  <mat-card class="register-card my-custom-card">
+    <form [formGroup]="vendorForm" (submit)="collectData()" class="form">
+      <h2 class="admin">Update Profile</h2>
+      <div>
+      <span class="image-icon">
+        <img [src]="userImage" class="profile-picture" />
+      </span>
+    </div>
+      <mat-grid-list cols="2" rowHeight="4:1" gutterSize="16px" class="grid-list" >
+        <mat-grid-tile >
+          <mat-form-field appearance="outline" class="my-custom-form-field" >
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" type="text" placeholder="username" />
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <mat-error>{{ errorMessageUserName }}</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline" class="my-custom-form-field">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" />
+            <mat-icon matPrefix>mail</mat-icon>
+            <mat-error>{{ errorMessageEmail }}</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile class="mat-grid">
+          <mat-form-field appearance="outline" class="my-custom-form-field">
+            <mat-label>Contact Number</mat-label>
+            <input matInput formControlName="contactNumber" />
+            <mat-icon matPrefix>call</mat-icon>
+            <mat-error>{{ errorMessageContactNumber }}</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile  >
+          <mat-form-field appearance="outline" class="my-custom-form-field">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address" type="text" />
+            <mat-icon matPrefix>house</mat-icon>
+            <mat-error>{{ errorMessageAddress }}</mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field appearance="outline" class="my-custom-form-field">
+            <mat-label>GST No</mat-label>
+            <input matInput type="text" formControlName="gst_no" />
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile colspan="2">
+          <input
+            id="image-upload"
+            formControlName="userImage"
+            type="file"
+            accept="image/*"
+            class="file-input"
+            (change)="onFileSelected($event)"
+          />
+        </mat-grid-tile>
+      </mat-grid-list>
+
       <div class="button-row">
         <button mat-flat-button type="submit" class="mat-mdc-button">
           UPDATE
@@ -75,3 +161,4 @@
     </form>
   </mat-card>
 </div>
+-->

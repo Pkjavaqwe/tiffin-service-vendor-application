@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, SimpleChange, SimpleChanges } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Menus } from './model/menus';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth/services/auth.service';
 import { SnackbarService } from '../shared/snackbar.service';
+import { ImageService } from '../auth/services/image.service';
 @Component({
   selector: 'app-layout',
   imports: [
@@ -25,6 +26,7 @@ import { SnackbarService } from '../shared/snackbar.service';
   styleUrl: './layout.component.scss',
 })
 export class LayoutComponent {
+
   menus: Menus[] = [
     {
       label: `Dashboard`,
@@ -55,12 +57,17 @@ export class LayoutComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private snackBarService: SnackbarService
+    private snackBarService: SnackbarService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit(): void {
     this.fetchUserProfileImage();
+    this.imageService.currentImage.subscribe(image => {
+      this.image = image; 
+    });
   }
+
 
   fetchUserProfileImage(): void {
     const adminDetails = this.authService.getUserTypeByToken();
