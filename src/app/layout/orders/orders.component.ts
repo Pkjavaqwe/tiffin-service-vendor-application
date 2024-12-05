@@ -65,7 +65,7 @@ export class OrdersComponent implements OnInit {
     { name: 'delivery_status', header: 'Delivery Status' },
     // { name: 'price', header: 'Price' },
     { name: 'created_at', header: 'Date', pipe: 'date' },
-    { name: 'isActive', header: 'Is Active' },
+    // { name: 'isActive', header: 'Is Active' },
   ];
   onRowClick(row: any) {
     console.log('Row clicked:', row);

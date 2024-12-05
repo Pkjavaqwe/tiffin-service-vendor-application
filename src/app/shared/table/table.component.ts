@@ -14,6 +14,7 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-table',
@@ -26,7 +27,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
     MatTooltipModule,
     MatFormFieldModule,
     MatIconModule,
-    MatSlideToggle,
+    MatSelectModule,
     MatSortModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -37,63 +38,6 @@ export class TableComponent implements AfterViewInit {
     console.log(row);
 
   }
-  // @Input()
-  // ordersDetails: OrderValue[] = [];
-  // @Input() columns: any[] = [];
-  // // @Input() columnDefs: any[] = [];  
-  // // @Input() clickable: boolean = true;
-  // displayedColumns: string[] = [];
-
-  // constructor(private router: Router,private datePipe: DatePipe,private injector: Injector){}
-
-  // applyPipe(value: any, pipeName: string) {
-  //   if (pipeName === 'date') {
-  //     const datePipe = new DatePipe('en-US'); 
-  //     return datePipe.transform(value, 'shortDate');
-  //   }
-  //   return value;
-  // }
-
-
-  // dataSource = new MatTableDataSource<OrderValue>(this.ordersDetails);
-  // selection = new SelectionModel<OrderValue>(true, []);
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['ordersDetails']) {
-  //     this.dataSource.data = this.ordersDetails;
-  //   }
-  //   if (changes['columns']) {
-  //     this.displayedColumns = this.columns.map(col => col.name); 
-  //   }
-  // }
-
-  // isAllSelected() {
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.dataSource.data.length;
-  //   return numSelected === numRows;
-  // }
-
-  // toggleAllRows() {
-  //   if (this.isAllSelected()) {
-  //     this.selection.clear();
-  //     return;
-  //   }
-
-  //   this.selection.select(...this.dataSource.data);
-  // }
-
-  // checkboxLabel(row?: OrderValue): string {
-  //   if (!row) {
-  //     return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-  //   }
-  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-  //     row._id + 1
-  //   }`;
-  // }
-
-  // onRowClick(orderId: string) {
-  //   this.router.navigate(['/order', orderId]);  
-  // }
   private _liveAnnouncer = inject(LiveAnnouncer);
 
   @Input() columns: any[] = [];
@@ -128,6 +72,13 @@ export class TableComponent implements AfterViewInit {
     this.displayedColumns = ['select', ...this.columns.map((column: any) => column.name)];
     this.dataSource = new MatTableDataSource<any>(this.columnDetails);
     this.dataSource.paginator = this.paginator;
+
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      if (filter === 'all') {
+        return true;  // Show all records
+      }
+      return data.delivery_status.toLowerCase().includes(filter);
+    };
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -146,6 +97,11 @@ export class TableComponent implements AfterViewInit {
   onPageChange(event: PageEvent) {
     this.pageChange.emit(event);
     console.log(" emit pageevent on change ", event);
+  }
+  selectedStatus: string = 'all'; 
+  onStatusChange(status: string): void {
+    this.selectedStatus = status;
+    this.dataSource.filter = status.toLowerCase();
   }
 
   isAllSelected(): boolean {

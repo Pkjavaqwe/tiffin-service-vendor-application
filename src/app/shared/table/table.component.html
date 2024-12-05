@@ -1,4 +1,15 @@
 <mat-card class="my-custom-card example-card" appearance="outlined">
+
+  <mat-form-field>
+    <mat-label>Filter by Delivery Status</mat-label>
+    <mat-select (selectionChange)="onStatusChange($event.value)" placeholder="Select Status">
+      <mat-option value="all">All</mat-option>
+      <mat-option value="delivered">Delivered</mat-option>
+      <mat-option value="pending">Pending</mat-option>
+      <mat-option value="cancelled">Cancelled</mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <table
     mat-table
     [dataSource]="dataSource"
@@ -41,13 +52,6 @@
         *matCellDef="let element"
         (click)="onRowClick(element, element._id)"
       >
-        <!-- <ng-container *ngIf="column.name === 'isActive'">
-          <mat-slide-toggle
-            [checked]="element.isActive"
-            (change)="onToggleChange(element)"
-          >
-          </mat-slide-toggle>
-        </ng-container> -->
         <ng-container *ngIf="column.name === 'payment_status'">
           <span
             [ngClass]="{

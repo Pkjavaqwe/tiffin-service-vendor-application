@@ -1,9 +1,13 @@
+<!-- <div class="container">
+  <div>
 <mat-button-toggle-group aria-label="Filter" class="toggle-button">
-  <mat-button-toggle (click)="toggleFilter('weekly')">Weekly</mat-button-toggle>
-  <mat-button-toggle (click)="toggleFilter('monthly')"
+  <mat-button-toggle  (click)="toggleFilter('weekly')">Weekly</mat-button-toggle>
+  <mat-button-toggle [checked]="true" (click)="toggleFilter('monthly')"
     >Monthly</mat-button-toggle
   >
 </mat-button-toggle-group>
+</div>
+<div>
 <div
   *ngIf="chartOptions"
   style="display: flex; justify-content: center; margin: 16px"
@@ -44,5 +48,150 @@
         </button>
       </mat-card-actions>
     </mat-card>
+  </div>
+</div>
+</div>
+</div> -->
+
+<!-- <div class="container">
+  <div>
+    <mat-button-toggle-group aria-label="Filter" class="toggle-button">
+      <mat-button-toggle (click)="toggleFilter('weekly')">Weekly</mat-button-toggle>
+      <mat-button-toggle [checked]="true" (click)="toggleFilter('monthly')">Monthly</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div *ngIf="chartOptions" style="display: flex; justify-content: center; margin: 16px">
+    <ag-charts style="height: 100%; width: 100%" [options]="chartOptions"></ag-charts>
+  </div>
+
+  <div style="padding: 20px; margin-bottom: 20px">
+    <div class="card-container">
+      <mat-card
+        *ngFor="let org of organizationsArray"
+        [style.height.px]="cardHeight"
+        class="my-custom-card example-card"
+      >
+        <mat-card-header>
+          <img mat-card-avatar [src]="org.org_image_url" alt="Organization Image" />
+          <mat-card-title>{{ org.org_name }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p><strong>Location:</strong></p>
+          <ng-container *ngIf="org.org_location.length === 1">
+            <p>{{ org.org_location[0].loc }}</p>
+          </ng-container>
+
+          <ng-container *ngIf="org.org_location.length > 1">
+            <select [(ngModel)]="selectedLocation[org._id]" class="mat-select">
+              <option *ngFor="let location of org.org_location" [value]="location.loc">
+                {{ location.loc }}
+              </option>
+            </select>
+          </ng-container>
+
+          <p><strong>Address:</strong> {{ org.org_location[0].address }}</p>
+          <p><strong>Contact:</strong> {{ org.org_location[0].loc_contact }}</p>
+          <p><strong>Email:</strong> {{ org.org_location[0].loc_email }}</p>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="onRegisterClick(org._id, selectedLocation[org._id] || org.org_location[0].loc)"
+          >
+            Register
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div> -->
+
+<div class="container" style="margin: 50px">
+  <div>
+    <mat-button-toggle-group aria-label="Filter" class="toggle-button">
+      <mat-button-toggle (click)="toggleFilter('weekly')"
+        >Weekly</mat-button-toggle
+      >
+      <mat-button-toggle [checked]="true" (click)="toggleFilter('monthly')"
+        >Monthly</mat-button-toggle
+      >
+    </mat-button-toggle-group>
+  </div>
+
+  <div
+    *ngIf="chartOptions"
+    style="display: flex; justify-content: center; margin: 16px"
+  >
+    <ag-charts
+      style="height: 100%; width: 100%"
+      [options]="chartOptions"
+    ></ag-charts>
+  </div>
+
+  <div style="padding: 20px; margin-bottom: 20px">
+    <div class="card-container">
+      <mat-card
+        *ngFor="let org of organizationsArray"
+        [style.height.px]="cardHeight"
+        class="my-custom-card example-card"
+      >
+        <mat-card-header>
+          <img
+            mat-card-avatar
+            [src]="
+              org.org_image_url
+                ? org.org_image_url
+                : 'https://img.freepik.com/free-photo/team-teamwork-collaboration-corporate-concept_53876-15857.jpg?ga=GA1.1.1945126853.1724051619&semt=ais_hybrid'
+            "
+            alt="Organization Image"
+          />
+        </mat-card-header>
+        <mat-card-title style="margin-left: 16px">{{
+          org.org_name
+        }}</mat-card-title>
+        <mat-card-content>
+          <p><strong>Location:</strong></p>
+
+          <!-- Location Selection Dropdown using mat-select -->
+          <mat-form-field appearance="fill" class="custom-form-field">
+            <mat-label>Select Location</mat-label>
+            <mat-select
+              [(ngModel)]="selectedLocation[org._id]"
+              (selectionChange)="
+                selectLocation(org._id, selectedLocation[org._id])
+              "
+            >
+              <mat-option
+                *ngFor="let location of org.org_location"
+                [value]="location.loc"
+              >
+                {{ location.loc }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- <div *ngIf="selectedLocation[org._id]">
+            <p><strong>Address:</strong> {{ getLocationDetails(org._id)?.address }}</p>
+            <p><strong>Contact:</strong> {{ getLocationDetails(org._id)?.loc_contact }}</p>
+            <p><strong>Email:</strong> {{ getLocationDetails(org._id)?.loc_email }}</p>
+          </div> -->
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button
+            mat-stroked-button
+            color="primary"
+            [disabled]="!selectedLocation[org._id]"
+            (click)="onRegisterClick(org._id, selectedLocation[org._id])"
+          >
+            Register
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
   </div>
 </div>

@@ -15,6 +15,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 import { AuthService } from '../../auth/services/auth.service';
 import { SnackbarService } from '../../shared/snackbar.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +30,9 @@ import { SnackbarService } from '../../shared/snackbar.service';
     CommonModule,
     MatButtonModule,
     MatSliderModule,
+    MatFormFieldModule,
+    MatSelectModule,
+
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -36,9 +43,8 @@ export class DashboardComponent {
   organizationsArray: Organization[] = [];
   pageSize = 10;
   currentPage = 0;
-  cardHeight: number = 300;
+  cardHeight: number = 400;
   cardWidth: number = 280;
-
 
   public weeklyData = [
     {
@@ -88,13 +94,15 @@ export class DashboardComponent {
     const userByToken = this.authService.getUserTypeByToken();
     userByToken.subscribe({
       next: (userData) => {
-        console.log("userdata", userData)
+        console.log('userdata', userData);
         // this.userStatus = userData.data.role_specific_details.approval_status;
-        const approvalStatuses = userData.data.role_specific_details.approval.map(item => item.approval_status);
-        console.log("approvalStatuses", approvalStatuses);
-
+        const approvalStatuses =
+          userData.data.role_specific_details.approval.map(
+            (item) => item.approval_status
+          );
+        console.log('approvalStatuses', approvalStatuses);
       },
-      error: () => { },
+      error: () => {},
     });
   }
 
@@ -189,11 +197,17 @@ export class DashboardComponent {
   // }
 
   ordersData: any;
+  selectedLocation: { [orgId: string]: string } = {};
+    locations: any[]=[];
 
   ngOnInit(): void {
     this.getOrders('week', 'pending', 2024);
     this.getAllOrganizations();
-    this.getUserByToken()
+    this.getUserByToken();
+
+    // if (this.locations.length > 0) {
+    //   this.selectedLocation = this.locations[0].loc;
+    // }
   }
 
   getOrders(filter: 'week' | 'month', status: string, year: number): void {
@@ -279,12 +293,31 @@ export class DashboardComponent {
       next: (orgData) => {
         console.log('data', orgData.data);
         this.organizationsArray = orgData.data;
-
+         this.locations = this.organizationsArray.map(
+          (item) => item.org_location
+        );
+        console.log("locations", this.locations);
+        
       },
       error: (err) => {
         console.log(err);
       },
     });
+  }
+
+  selectLocation(orgId: string, location: string): void {
+    this.selectedLocation[orgId] = location; // Save the selected location for the organization
+    console.log(`Selected location for Org ${orgId}: ${location}`);
+  }
+
+  // Helper method to get location details based on selected location
+  getLocationDetails(orgId: string) {
+    const selectedLocation = this.selectedLocation[orgId];
+    const org = this.organizationsArray.find(org => org._id === orgId);
+    if (org) {
+      return org.org_location.find(location => location.loc === selectedLocation);
+    }
+    return null;
   }
 
   onRegisterClick(organizationId: string, location: string) {
